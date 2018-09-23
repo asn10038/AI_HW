@@ -131,7 +131,6 @@ def bfs(state):
 
         if goal_test(parent_state):
             # need to return stuff here
-            closed = set(closed_list)
             print("You found the goal")
             solution = get_solution(backtrack, parent_state)
             states_expanded = len(closed)
@@ -140,9 +139,7 @@ def bfs(state):
             return solution, states_expanded, max_fringe
 
         successors = get_successors(parent_state)
-        closed_list = list(closed)
-        closed_list.append(parent_state)
-        closed = set(closed_list)
+        closed.add(parent_state)
 
         for node in successors:
             action = node[0]
@@ -180,6 +177,42 @@ def dfs(state):
     closed = set()
     parents = {}
     #YOUR CODE HERE
+
+    queue = []
+    if len(queue) == 0:
+        parents[state] = "initial_state"
+        queue.append(state)
+
+    while(len(queue) != 0):
+        parent_state = queue.pop()
+
+        if goal_test(parent_state):
+            # need to return stuff here
+            print("You found the goal")
+            solution = get_solution(parents, parent_state)
+            states_expanded = len(closed)
+            # add one for the goal state that we found
+            states_expanded += 1
+            return solution, states_expanded, max_fringe
+
+        successors = get_successors(parent_state)
+
+        closed.add(parent_state)
+
+        for node in successors:
+            action = node[0]
+            child_state = node[1]
+
+            # Don't re add already closed nodes to the tree
+            if child_state in closed:
+                continue
+
+            # update the mapping structure
+            parents[child_state] = (action, parent_state)
+
+            queue.append(child_state)
+            if(len(queue) > max_fringe):
+                max_fringe = len(queue)
 
     #  return solution, states_expanded, max_fringe
     return None, states_expanded, max_fringe # No solution found
@@ -293,13 +326,13 @@ if __name__ == "__main__":
         print(solution)
     print("Total time: {0:.3f}s".format(end-start))
 
-    #print()
-    #print("====DFS====")
-    #start = time.time()
-    #solution, states_expanded, max_fringe = dfs(test_state)
-    #end = time.time()
-    #print_result(solution, states_expanded, max_fringe)
-    #print("Total time: {0:.3f}s".format(end-start))
+    print()
+    print("====DFS====")
+    start = time.time()
+    solution, states_expanded, max_fringe = dfs(test_state)
+    end = time.time()
+    print_result(solution, states_expanded, max_fringe)
+    print("Total time: {0:.3f}s".format(end-start))
 
     #print()
     #print("====Greedy Best-First (Misplaced Tiles Heuristic)====")
