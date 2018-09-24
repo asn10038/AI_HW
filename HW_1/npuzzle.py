@@ -66,11 +66,11 @@ def get_successors(state):
     # successor state by calling the swap_cells method.
     # Exclude actions that are not applicable.
 
-    if(holeX < 2):
-        child_states.append((ACTIONS[0], swap_cells(state, holeX, holeY, holeX, holeY+1)))
-    if(holeX > 0):
-        child_states.append((ACTIONS[1], swap_cells(state, holeX, holeY, holeX-1, holeY)))
     if(holeY < 2):
+        child_states.append((ACTIONS[0], swap_cells(state, holeX, holeY, holeX, holeY+1)))
+    if(holeY > 0):
+        child_states.append((ACTIONS[1], swap_cells(state, holeX, holeY, holeX, holeY-1)))
+    if(holeX < 2):
         child_states.append((ACTIONS[2], swap_cells(state, holeX, holeY, holeX+1, holeY)))
     if(holeX > 0):
         child_states.append((ACTIONS[3], swap_cells(state, holeX, holeY, holeX-1, holeY)))
@@ -89,6 +89,18 @@ def goal_test(state):
         return True
     return False
 
+def get_solution(mapping, state):
+    """
+    returns a list of actions ["RIGHT", "UP", ...]
+    that are the solution based on the given mapping
+    """
+    actions = []
+    search_state = state
+    while(mapping[search_state] != 'initial_state'):
+        actions.append(mapping[search_state][0])
+        search_state = mapping[search_state][1]
+    actions.reverse()
+    return actions
 
 def bfs(state):
     """
@@ -105,8 +117,47 @@ def bfs(state):
 
     fringe = []
     closed = set()
-    parents = {}
+    closed_list = []
+    backtrack = {}
+
     #YOUR CODE HERE
+    queue = []
+    if len(queue) == 0:
+        backtrack[state] = "initial_state"
+        queue.append(state)
+
+    while(len(queue) != 0):
+        parent_state = queue.pop(0)
+
+        if goal_test(parent_state):
+            # need to return stuff here
+            closed = set(closed_list)
+            print("You found the goal")
+            solution = get_solution(backtrack, parent_state)
+            states_expanded = len(closed)
+            # add one for the goal state that we found
+            states_expanded += 1
+            return solution, states_expanded, max_fringe
+
+        successors = get_successors(parent_state)
+        closed_list = list(closed)
+        closed_list.append(parent_state)
+        closed = set(closed_list)
+
+        for node in successors:
+            action = node[0]
+            child_state = node[1]
+
+            # Don't re add already closed nodes to the tree
+            if child_state in closed:
+                continue
+
+            # update the mapping structure
+            backtrack[child_state] = (action, parent_state)
+
+            queue.append(child_state)
+            if(len(queue) > max_fringe):
+                max_fringe = len(queue)
 
     #  return solution, states_expanded, max_fringe
     return None, states_expanded, max_fringe # No solution found
