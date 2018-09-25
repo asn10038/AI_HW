@@ -224,7 +224,14 @@ def misplaced_heuristic(state):
     """
 
     #YOUR CODE HERE
-    return 0 # replace this
+    count = 0
+    goal_state = ((0,1,2),(3,4,5),(6,7,8))
+    for x in range(0,3):
+        for y in range(0,3):
+            if state[x][y] != goal_state[x][y]:
+                count += 1
+
+    return count
 
 
 def manhattan_heuristic(state):
@@ -232,6 +239,25 @@ def manhattan_heuristic(state):
     For each misplaced tile, compute the Manhattan distance between the current
     position and the goal position. Then return the sum of all distances.
     """
+    goal_placings = {
+                     0:(0,0),
+                     1:(0,1),
+                     2:(0,2),
+                     3:(1,0),
+                     4:(1,1),
+                     5:(1,2),
+                     6:(2,0),
+                     7:(2,1),
+                     8:(2,2)
+                     }
+    total = 0
+    for  x in range(0,3):
+        for y in range(0,3):
+            num = state[x][y]
+            diffX = abs(goal_placings[num][0]-x)
+            diffY = abs(goal_placings[num][1]-y)
+            total += diffX
+            total += diffY
 
     return 0 # replace this
 
@@ -310,7 +336,7 @@ if __name__ == "__main__":
                   (3, 6, 7))
 
     #More difficult test case
-    #test_state = ((7, 2, 4),
+    # test_state = ((7, 2, 4),
     #              (5, 0, 6),
     #              (8, 3, 1))
 
