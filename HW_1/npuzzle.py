@@ -230,7 +230,6 @@ def misplaced_heuristic(state):
         for y in range(0,3):
             if state[x][y] != goal_state[x][y]:
                 count += 1
-
     return count
 
 
@@ -251,7 +250,7 @@ def manhattan_heuristic(state):
                      8:(2,2)
                      }
     total = 0
-    for  x in range(0,3):
+    for x in range(0,3):
         for y in range(0,3):
             num = state[x][y]
             diffX = abs(goal_placings[num][0]-x)
@@ -259,7 +258,7 @@ def manhattan_heuristic(state):
             total += diffX
             total += diffY
 
-    return 0 # replace this
+    return total
 
 
 def best_first(state, heuristic):
@@ -284,6 +283,41 @@ def best_first(state, heuristic):
     parents = {}
 
     #YOUR CODE HERE
+    if not fringe:
+        parents[state] = "initial_state"
+        pair = (heuristic(state), state)
+        heappush(fringe, pair)
+
+    while fringe:
+        parent_pair = heappop(fringe)
+        parent_state = parent_pair[1]
+
+        if goal_test(parent_state):
+            solved = get_solution(parents, parent_state)
+            states_expanded = len(closed)
+            # add one for goal state
+            states_expanded += 1
+            return solved, states_expanded, max_fringe
+
+        successors = get_successors(parent_state)
+        closed.add(parent_state)
+
+        for node in successors:
+            action = node[0]
+            child_state = node[1]
+
+            pair = (heuristic(child_state), child_state)
+
+            # Don't re add already closed nodes to the tree
+            if child_state in closed:
+                continue
+
+            parents[child_state] = (action, parent_state)
+
+            heappush(fringe, pair)
+
+            if len(fringe) > max_fringe:
+                max_fringe = len(fringe)
 
     return None, states_expanded, max_fringe # No solution found
 
@@ -311,6 +345,47 @@ def astar(state, heuristic):
     costs = {}
 
     #YOUR CODE HERE
+    if not fringe:
+        parents[state] = "initial_state"
+        costs[state] = 0
+        pair = (heuristic(state), state)
+        heappush(fringe, pair)
+
+    while fringe:
+        parent_pair = heappop(fringe)
+        parent_state = parent_pair[1]
+
+        if goal_test(parent_state):
+            solved = get_solution(parents, parent_state)
+            states_expanded = len(closed)
+            # add one for goal state
+            states_expanded += 1
+            return solved, states_expanded, max_fringe
+
+        successors = get_successors(parent_state)
+        closed.add(parent_state)
+
+        for node in successors:
+            action = node[0]
+            child_state = node[1]
+
+            # Don't re add already closed nodes to the tree
+            if child_state in closed:
+                continue
+
+            cost = costs[parent_state] + 1
+            pair = (cost + heuristic(child_state),
+                    child_state)
+
+
+            costs[child_state] = cost
+            parents[child_state] = (action, parent_state)
+
+            heappush(fringe, pair)
+
+            if len(fringe) > max_fringe:
+                max_fringe = len(fringe)
+
 
     return None, states_expanded, max_fringe # No solution found
 
@@ -331,14 +406,14 @@ def print_result(solution, states_expanded, max_fringe):
 if __name__ == "__main__":
 
     #Easy test case
-    test_state = ((1, 4, 2),
-                  (0, 5, 8),
-                  (3, 6, 7))
+    # test_state = ((1, 4, 2),
+    #               (0, 5, 8),
+    #               (3, 6, 7))
 
-    #More difficult test case
-    # test_state = ((7, 2, 4),
-    #              (5, 0, 6),
-    #              (8, 3, 1))
+    # More difficult test case
+    test_state = ((7, 2, 4),
+                 (5, 0, 6),
+                 (8, 3, 1))
 
     print(state_to_string(test_state))
     print()
@@ -352,7 +427,7 @@ if __name__ == "__main__":
         print(solution)
     print("Total time: {0:.3f}s".format(end-start))
 
-    print()
+    # print()
     print("====DFS====")
     start = time.time()
     solution, states_expanded, max_fringe = dfs(test_state)
@@ -360,26 +435,26 @@ if __name__ == "__main__":
     print_result(solution, states_expanded, max_fringe)
     print("Total time: {0:.3f}s".format(end-start))
 
-    #print()
-    #print("====Greedy Best-First (Misplaced Tiles Heuristic)====")
-    #start = time.time()
-    #solution, states_expanded, max_fringe = best_first(test_state, misplaced_heuristic)
-    #end = time.time()
-    #print_result(solution, states_expanded, max_fringe)
-    #print("Total time: {0:.3f}s".format(end-start))
+    print()
+    print("====Greedy Best-First (Misplaced Tiles Heuristic)====")
+    start = time.time()
+    solution, states_expanded, max_fringe = best_first(test_state, misplaced_heuristic)
+    end = time.time()
+    print_result(solution, states_expanded, max_fringe)
+    print("Total time: {0:.3f}s".format(end-start))
 
-    #print()
-    #print("====A* (Misplaced Tiles Heuristic)====")
-    #start = time.time()
-    #solution, states_expanded, max_fringe = astar(test_state, misplaced_heuristic)
-    #end = time.time()
-    #print_result(solution, states_expanded, max_fringe)
-    #print("Total time: {0:.3f}s".format(end-start))
+    print()
+    print("====A* (Misplaced Tiles Heuristic)====")
+    start = time.time()
+    solution, states_expanded, max_fringe = astar(test_state, misplaced_heuristic)
+    end = time.time()
+    print_result(solution, states_expanded, max_fringe)
+    print("Total time: {0:.3f}s".format(end-start))
 
-    #print()
-    #print("====A* (Total Manhattan Distance Heuristic)====")
-    #start = time.time()
-    #solution, states_expanded, max_fringe = astar(test_state, manhattan_heuristic)
-    #end = time.time()
-    #print_result(solution, states_expanded, max_fringe)
-    #print("Total time: {0:.3f}s".format(end-start))
+    print()
+    print("====A* (Total Manhattan Distance Heuristic)====")
+    start = time.time()
+    solution, states_expanded, max_fringe = astar(test_state, manhattan_heuristic)
+    end = time.time()
+    print_result(solution, states_expanded, max_fringe)
+    print("Total time: {0:.3f}s".format(end-start))
