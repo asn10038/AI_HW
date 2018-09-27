@@ -85,4 +85,28 @@ remains the Manhattan distance from the agent to the goal.
 * States Expanded: A, B, C, D, F, G
 * Solution: A, B, D, G
 
-**4) Which heuristics are admissable?** 
+**4) Which heuristics are admissible?**
+
+* h1, h2, and h3 are admissible. For each node the heuristic is less than or equal to the true cost
+
+**5) Which heuristics are consistent?**
+* h1, h2, and h4 are consistent. Difference in heuristic costs between adjacent nodes is less than the actual distance between them
+
+**6) What orders will nodes be added to the fringe in A* search using h3**
+
+* A, B, C, D, F, G
+* Assuming use of closed set
+
+**7) What order will the nodes be added to the closed set?**
+
+* A, C, D, B, G
+
+**8) Which path will A* return?**
+
+* A --> C --> D --> G; total length 17
+
+**9) With h(3) which path will greedy search return?**
+
+* A --> C --> F; total length 26
+
+### Part 3: Train CSP
