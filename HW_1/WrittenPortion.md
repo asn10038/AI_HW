@@ -14,7 +14,7 @@
    * The environment is deterministic because the agent can always know the outcome of an action. Either a move to an adjacent square will succeed or it will not because another agent already occupies the square, either way the agent knows the outcome of each action.
 
  c) episodic or sequential
- * The environment is episodic since previous decisions are not considered when making the next action.
+ * The environment is episodic since previous decisions don't effect the current decision.
 
  d) static or dynamic
 * The environment is static since the environment does not change while the agent makes a decision.
@@ -53,10 +53,10 @@ a) What is a posisible state space description for the problem?
 **4) Consider the case of controlling a single insect, but the maze now contains G spiders patrolling a known, periodic path. At a given time step t each guard g is at a position given by known functions.**
 
 a) How do any of the environment properties change?
-* I don't think any of the environment properties change.
+* Now the environment is dynamic since the position of the bugs changes over time.
 
 b) What is a possible state space description?
-* All possible locations of the agent, the guards, and the goals.
+* All possible locations of the agent, the guards, and the goal.
 
 c) What is the size of the state space and a non-trivial heuristic
 * All permutations of the agent and the two guards placed on the board. A non trivial heuristic
@@ -66,8 +66,27 @@ remains the Manhattan distance from the agent to the goal.
 
 **5) Consider the case of controlling a single insect that can speed up as long as it doesn't change direction. After a move of v  squares in a direction, its available actions are to move up to v + 1  squares in the same direction, move 1 square in any of the other directions, or stay still. All squares that the insect passes over must be empty. The dots in the example below indicate the insect's stops at each step in the optimal plan.**
 
+a) How does the environment change?
 
-**6) Consider the case of controlling a single insect in a maze where certain squares are filled with pesticide, an example of which is shown below (pesticide squares are green). A valid solution navigating the insect toward its goal must not have it spending more than LaTeX: L L  time steps in the pesticide squares, or else it will die.**
+* Now sequential problem since your previous actions have an effect on your next best actions.
+
+b) What is a possible description of the state space?
+
+* The state space remains all possible locations of the bug on the board, but the action space has increased significantly
+
+**6) Consider the case of controlling a single insect in a maze where certain squares are filled with pesticide, an example of which is shown below (pesticide squares are green). A valid solution navigating the insect toward its goal must not have it spending more than L  time steps in the pesticide squares, or else it will die.**
+
+How do the environment properties change?
+
+* Now the environment is continuous since previous actions will effect the next best action
+
+What is a possible state space description of the problem?
+
+* The location of the agent as well as how long the agent as been on poisonous squares.
+
+Size of state space and heuristic
+* The size of the state space is the number of positions on the board * L.
+* A heuristic would be the Manhattan distance maybe plus how long you've been on poisonous squares at that the state
 
 
 ### Part 2: Comparing Search and Heuristics
@@ -110,3 +129,37 @@ remains the Manhattan distance from the agent to the goal.
 * A --> C --> F; total length 26
 
 ### Part 3: Train CSP
+
+**1) Write out  the CSP with variables A, B, C**
+
+Domain: A,B,C --> {1,2,3}
+
+* 0 < A, B, C < 4
+
+Constraints to avoid collision:
+
+* A > B
+* A > C
+* C > B
+
+**2) Constraint Graph**
+![](.png)
+
+
+**3) Arc Consistency without variable assignment**
+
+* A: 3
+* B: 1,2
+* C: 2
+
+**4)Suppose we select A = 2 (train A departs at 2pm). What departure times are still possible for B and C after performing forward checking?**
+
+* A: 2
+* B: 1
+* C: 1
+
+**5) A = 2. Possible solutions after arc consistency?**
+
+* A: 2
+* B: X -- None
+* C: X -- None
