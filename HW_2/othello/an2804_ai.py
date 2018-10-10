@@ -17,6 +17,9 @@ import time
 # You can use the functions in othello_shared to write your AI
 from othello_shared import find_lines, get_possible_moves, get_score, play_move
 
+# global dictionary for values and boards
+board_values = {}
+
 def compute_utility(board, color):
     """
     Return the utility of the given board state
@@ -57,14 +60,19 @@ def minimax_min_node(board, color):
     min_val = 1000
 
     if is_leaf_node(board, opponent):
-        return compute_utility(board, color)
+        if board not in board_values:
+            board_values[board] = compute_utility(board, color)
+        return board_values[board]
 
     # if not a leaf node compute minimum of children's maximum
     moves = get_possible_moves(board, opponent)
-    successors = []
+
     for move in moves:
         successor = play_move(board, opponent, move[0], move[1])
-        val = minimax_max_node(successor, color)
+        if successor not in board_values:
+            board_values[successor] = minimax_max_node(successor, color)
+        val = board_values[successor]
+
         min_val = min(min_val, val)
 
     return min_val
@@ -74,13 +82,18 @@ def minimax_max_node(board, color):
     max_val = -1000
 
     if is_leaf_node(board, color):
-        return compute_utility(board, color)
+        if board not in board_values:
+            board_values[board] = compute_utility(board, color)
+        return board_values[board]
+
 
     # if not a leaf node. Need to compute the maximum of the mimimum of the children nodes
     moves = get_possible_moves(board, color)
     for move in moves:
         successor = play_move(board, color, move[0], move[1])
-        val = minimax_min_node(successor, color)
+        if successor not in board_values:
+            board_values[successor] = minimax_min_node(successor, color)
+        val = board_values[successor]
         max_val = max(max_val, val)
 
     return max_val
@@ -111,16 +124,79 @@ def select_move_minimax(board, color):
 
 #alphabeta_min_node(board, color, alpha, beta, level, limit)
 def alphabeta_min_node(board, color, alpha, beta):
-    return None
+    '''returns the value of the min node'''
+    opponent = switch_color(color)
+    min_val = 1000
+
+    if is_leaf_node(board, opponent):
+        if board not in board_values:
+            board_values[board] = compute_utility(board, color)
+        return board_values[board]
+
+    # if not a leaf node compute minimum of children's maximum
+    moves = get_possible_moves(board, opponent)
+
+    for move in moves:
+        successor = play_move(board, opponent, move[0], move[1])
+        if successor not in board_values:
+            board_values[successor] = alphabeta_max_node(successor, color, alpha, beta)
+        val = board_values[successor]
+
+        min_val = min(min_val, val)
+        if min_val <= alpha:
+            return min_val
+        beta = min(beta, min_val)
+
+    return min_val
 
 
 #alphabeta_max_node(board, color, alpha, beta, level, limit)
 def alphabeta_max_node(board, color, alpha, beta):
-    return None
+    '''returns the value of the node'''
+    max_val = -1000
 
+    if is_leaf_node(board, color):
+        return compute_utility(board, color)
+
+    # if not a leaf node. Need to compute the maximum of the mimimum of the children nodes
+    moves = get_possible_moves(board, color)
+    for move in moves:
+        successor = play_move(board, color, move[0], move[1])
+        if successor not in board_values:
+            board_values[successor] = alphabeta_min_node(successor, color, alpha, beta)
+        val = board_values[successor]
+
+
+        max_val = max(max_val, val)
+        if max_val >= beta:
+            return max_val
+        alpha = max(alpha, max_val)
+
+    return max_val
 
 def select_move_alphabeta(board, color):
-    return 0,0
+    """
+    Given a board and a player color, decide on a move.
+    The return value is a tuple of integers (i,j), where
+    i is the column and j is the row on the board.
+    """
+    if is_leaf_node(board, color):
+        raise Exception("No legal moves allowed")
+    else:
+        alpha = -1000
+        beta = 1000
+        moves = get_possible_moves(board, color)
+        max_val = -1000
+        max_move = ()
+        for move in moves:
+            successor = play_move(board, color, move[0], move[1])
+            val = alphabeta_min_node(successor, color, alpha, beta)
+            if val > max_val:
+                max_val = val
+                max_move = move
+
+    return max_move
+
 
 
 ####################################################
@@ -155,8 +231,8 @@ def run_ai():
                                   # 2 : light disk (player 2)
 
             # Select the move and send it to the manager
-            movei, movej = select_move_minimax(board, color)
-            #movei, movej = select_move_alphabeta(board, color)
+            # movei, movej = select_move_minimax(board, color)
+            movei, movej = select_move_alphabeta(board, color)
             print("{} {}".format(movei, movej))
 
 
