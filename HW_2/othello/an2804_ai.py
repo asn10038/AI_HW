@@ -66,9 +66,12 @@ def minimax_min_node(board, color):
 
     # if not a leaf node compute minimum of children's maximum
     moves = get_possible_moves(board, opponent)
+    successors = []
+    #play the moves and get the states
+    map(lambda x: successors.append(play_move(board, opponent, x[0], x[1])), moves)
+    successors.sort(key=lambda x: compute_utility(x, color))
 
-    for move in moves:
-        successor = play_move(board, opponent, move[0], move[1])
+    for successor in successors:
         if successor not in board_values:
             board_values[successor] = minimax_max_node(successor, color)
         val = board_values[successor]
@@ -89,8 +92,12 @@ def minimax_max_node(board, color):
 
     # if not a leaf node. Need to compute the maximum of the mimimum of the children nodes
     moves = get_possible_moves(board, color)
-    for move in moves:
-        successor = play_move(board, color, move[0], move[1])
+    successors = []
+
+    map(lambda x: successors.append(play_move(board, color, x[0], x[1])), moves)
+    successors.sort(key=lambda x: compute_utility(x, color), reverse=True)
+
+    for successor in successors:
         if successor not in board_values:
             board_values[successor] = minimax_min_node(successor, color)
         val = board_values[successor]
@@ -108,14 +115,19 @@ def select_move_minimax(board, color):
         raise Exception("No legal moves allowed")
     else:
         moves = get_possible_moves(board, color)
+        successors_moves = {}
+
+        for move in moves:
+            successors_moves[play_move(board, color, move[0], move[1])] = move
+        sorted_successors = sorted(successors_moves.keys(), key=lambda x: compute_utility(x, color), reverse=True)
         max_val = -1000
         max_move = ()
-        for move in moves:
-            successor = play_move(board, color, move[0], move[1])
+        for successor in sorted_successors:
+            # successor = play_move(board, color, move[0], move[1])
             val = minimax_min_node(successor, color)
             if val > max_val:
                 max_val = val
-                max_move = move
+                max_move = successors_moves[successor]
 
     return max_move
 
@@ -136,8 +148,13 @@ def alphabeta_min_node(board, color, alpha, beta):
     # if not a leaf node compute minimum of children's maximum
     moves = get_possible_moves(board, opponent)
 
-    for move in moves:
-        successor = play_move(board, opponent, move[0], move[1])
+    successors = []
+    #play the moves and get the states
+    map(lambda x: successors.append(play_move(board, opponent, x[0], x[1])), moves)
+    successors.sort(key=lambda x: compute_utility(x, color))
+
+    for successor in successors:
+        # successor = play_move(board, opponent, move[0], move[1])
         if successor not in board_values:
             board_values[successor] = alphabeta_max_node(successor, color, alpha, beta)
         val = board_values[successor]
@@ -160,8 +177,13 @@ def alphabeta_max_node(board, color, alpha, beta):
 
     # if not a leaf node. Need to compute the maximum of the mimimum of the children nodes
     moves = get_possible_moves(board, color)
-    for move in moves:
-        successor = play_move(board, color, move[0], move[1])
+    successors = []
+
+    map(lambda x: successors.append(play_move(board, color, x[0], x[1])), moves)
+    successors.sort(key=lambda x: compute_utility(x, color), reverse=True)
+
+    for successor in successors:
+        # successor = play_move(board, color, move[0], move[1])
         if successor not in board_values:
             board_values[successor] = alphabeta_min_node(successor, color, alpha, beta)
         val = board_values[successor]
@@ -186,14 +208,22 @@ def select_move_alphabeta(board, color):
         alpha = -1000
         beta = 1000
         moves = get_possible_moves(board, color)
+        moves = get_possible_moves(board, color)
+        successors_moves = {}
+
+        for move in moves:
+            successors_moves[play_move(board, color, move[0], move[1])] = move
+        sorted_successors = sorted(successors_moves.keys(), key=lambda x: compute_utility(x, color), reverse=True)
+
         max_val = -1000
         max_move = ()
-        for move in moves:
-            successor = play_move(board, color, move[0], move[1])
+
+        for successor in sorted_successors:
+            # successor = play_move(board, color, move[0], move[1])
             val = alphabeta_min_node(successor, color, alpha, beta)
             if val > max_val:
                 max_val = val
-                max_move = move
+                max_move = successors_moves[successor]
 
     return max_move
 
