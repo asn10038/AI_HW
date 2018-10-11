@@ -135,12 +135,12 @@ def select_move_minimax(board, color):
 ############ ALPHA-BETA PRUNING #####################
 
 #alphabeta_min_node(board, color, alpha, beta, level, limit)
-def alphabeta_min_node(board, color, alpha, beta):
+def alphabeta_min_node(board, color, alpha, beta, level, limit):
     '''returns the value of the min node'''
     opponent = switch_color(color)
     min_val = 1000
 
-    if is_leaf_node(board, opponent):
+    if is_leaf_node(board, opponent) or level == limit:
         if board not in board_values:
             board_values[board] = compute_utility(board, color)
         return board_values[board]
@@ -156,7 +156,7 @@ def alphabeta_min_node(board, color, alpha, beta):
     for successor in successors:
         # successor = play_move(board, opponent, move[0], move[1])
         if successor not in board_values:
-            board_values[successor] = alphabeta_max_node(successor, color, alpha, beta)
+            board_values[successor] = alphabeta_max_node(successor, color, alpha, beta, level+1, limit)
         val = board_values[successor]
 
         min_val = min(min_val, val)
@@ -168,12 +168,14 @@ def alphabeta_min_node(board, color, alpha, beta):
 
 
 #alphabeta_max_node(board, color, alpha, beta, level, limit)
-def alphabeta_max_node(board, color, alpha, beta):
+def alphabeta_max_node(board, color, alpha, beta, level, limit):
     '''returns the value of the node'''
     max_val = -1000
 
-    if is_leaf_node(board, color):
-        return compute_utility(board, color)
+    if is_leaf_node(board, opponent) or level==limit:
+        if board not in board_values:
+            board_values[board] = compute_utility(board, color)
+        return board_values[board]
 
     # if not a leaf node. Need to compute the maximum of the mimimum of the children nodes
     moves = get_possible_moves(board, color)
@@ -185,7 +187,7 @@ def alphabeta_max_node(board, color, alpha, beta):
     for successor in successors:
         # successor = play_move(board, color, move[0], move[1])
         if successor not in board_values:
-            board_values[successor] = alphabeta_min_node(successor, color, alpha, beta)
+            board_values[successor] = alphabeta_min_node(successor, color, alpha, beta, level+1, limit)
         val = board_values[successor]
 
 
@@ -220,7 +222,7 @@ def select_move_alphabeta(board, color):
 
         for successor in sorted_successors:
             # successor = play_move(board, color, move[0], move[1])
-            val = alphabeta_min_node(successor, color, alpha, beta)
+            val = alphabeta_min_node(successor, color, alpha, beta, 0, 16)
             if val > max_val:
                 max_val = val
                 max_move = successors_moves[successor]
@@ -261,8 +263,8 @@ def run_ai():
                                   # 2 : light disk (player 2)
 
             # Select the move and send it to the manager
-            # movei, movej = select_move_minimax(board, color)
-            movei, movej = select_move_alphabeta(board, color)
+            movei, movej = select_move_minimax(board, color)
+            # movei, movej = select_move_alphabeta(board, color)
             print("{} {}".format(movei, movej))
 
 
