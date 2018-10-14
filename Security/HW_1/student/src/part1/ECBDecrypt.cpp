@@ -82,10 +82,6 @@ std::string ECBDecrypt::grader_decrypt(EncryptionOracle &e) {
       buffer[buffer.size()-1] = guess;
       std::vector<uint8_t> guess_ciphertext = e.encrypt(buffer);
 
-      std::vector<uint8_t> guessBlockOne(guess_ciphertext.begin(), guess_ciphertext.begin()+blockSize );
-
-
-
       if(isNEqual(control_ciphertext, guess_ciphertext, buffer.size()))
       {
         found = true;
