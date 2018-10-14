@@ -47,7 +47,7 @@ std::string CBCDecrypt::grader_decrypt(EncryptionOracle &e) {
                         '1','2','3','4','5','6','7','8','9','0',',','.','!',' ','$', '\'' };
 
   std::string postfix;
-  int tmp = 0;
+
   while(true)
   {
     uint numblocks = postfix.size()/16;
@@ -87,9 +87,8 @@ std::string CBCDecrypt::grader_decrypt(EncryptionOracle &e) {
     if(!found)
     {
       break;
-
     }
-    tmp++;
+
   }
 
 
