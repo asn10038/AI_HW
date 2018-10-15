@@ -1,1 +1,10 @@
-Please write the solution here.
+The main issue with the padding oracle is that it leaks information to the attacker.
+Therefore the solution is to prevent the attacker from knowing when a padding error has occurred.
+
+One way this can be solved by including a MAC(message authentication code) that checks
+whether or not the message came from the correct sender. If it didn't come from
+the right sender then don't bother checking the padding. This could be done
+with normal public key signing techniques.
+
+Another thought I had was if you changed the padding scheme to something nondeterministic this might
+mitigate the attack because the attack requires that the attacker can guess what the contents of the padding bytes should be.
