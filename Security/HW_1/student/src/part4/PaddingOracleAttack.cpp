@@ -83,24 +83,9 @@ int PaddingOracleAttack::getNumPadBytes(PaddingOracle &o,
   return 0;
 }
 
-std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
-  // NOTE: Please write your code here.
+std::vector<uint8_t> PaddingOracleAttack::decryptBlock(PaddingOracle &o, std::vector<uint8_t> &secLastBlock,std::vector<uint8_t> &lastBlock)
+{
   uint blockSize = 16;
-  std::pair<std::vector<uint8_t>, std::vector<uint8_t>> pair = o.encrypt();
-  // std::vector<uint8_t> iv = std::get<0>(pair);
-  std::vector<uint8_t> ciphertext = std::get<1>(pair);
-  // uint num_padding_bytes = getNumPadBytes(o, iv, ciphertext);
-  // PRINTL(num_padding_bytes);
-  /* Assuming that the last n bytes are n...lets see what happens */
-
-  /*This is just to guess the last plaintext byte. Which should be 13 */
-
-  /* This is to decrypt one block */
-  std::vector<uint8_t> lastBlock(ciphertext.end()-blockSize, ciphertext.end());
-  std::vector<uint8_t> secLastBlock(ciphertext.end()-2*blockSize,
-                                    ciphertext.end()-blockSize);
-  /* ---------------------------------------------------------------------- */
-
   /* The value you want the padding bytes to take */
   uint goal = 1;
   uint known_bytes = 0;
@@ -155,10 +140,64 @@ std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
     }
   }
   std::vector<uint8_t> decrypted_block = XORVector(key_block, secLastBlock);
-  print_ciphertext(decrypted_block);
+  // print_ciphertext(decrypted_block);
+  //
+  // PRINT("NUM KNOWN BYTES: ");
+  // PRINTL(known_bytes);
+  return decrypted_block;
+}
 
-  PRINT("NUM KNOWN BYTES: ");
-  PRINTL(known_bytes);
+std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
+  // NOTE: Please write your code here.
+  uint blockSize = 16;
+  std::pair<std::vector<uint8_t>, std::vector<uint8_t>> pair = o.encrypt();
+  std::vector<uint8_t> iv = std::get<0>(pair);
+  std::vector<uint8_t> ciphertext = std::get<1>(pair);
+
+  /* This is initialization code done in a dumb way. Too lazy to fix */
+  std::vector<uint8_t> lastBlock(ciphertext.begin(), ciphertext.begin()+16);
+  std::vector<uint8_t> secLastBlock(ciphertext.begin(), ciphertext.begin()+16);
+  /* ---------------------------------------------------------------------- */
+
+  /* ------------------------- */
+  /* Need to iterate through all the blocks and IV */
+  assert(ciphertext.size()%blockSize==0);
+  uint num_blocks = ciphertext.size()/blockSize;
+  // print_ciphertext(ciphertext);
+  std::vector<uint8_t> plaintext;
+  for(int i=num_blocks; i>0; i--)
+  {
+    uint8_t lastBlockEnd = blockSize*i;
+    uint8_t lastBlockBegin = lastBlockEnd - blockSize;
+
+
+    std::vector<uint8_t> lastBlock(ciphertext.begin() + lastBlockBegin,
+                                   ciphertext.begin() + lastBlockEnd);
+    /* use the IV for the first block */
+    if(i != 1)
+    {
+      uint8_t secLastBlockEnd = lastBlockEnd - blockSize;
+      uint8_t secLastBlockBegin = lastBlockBegin - blockSize;
+      secLastBlock = std::vector<uint8_t>(ciphertext.begin() + secLastBlockBegin,
+                   ciphertext.begin() + secLastBlockEnd);
+    } else {
+      secLastBlock = iv;
+    }
+
+    std::vector<uint8_t> decrypted_block = decryptBlock(o, secLastBlock, lastBlock);
+    plaintext.insert(plaintext.end(), decrypted_block.begin(), decrypted_block.end());
+    // print_ciphertext(decrypted_block);
+    // PRINTL(" ");
+  }
+  print_ciphertext(plaintext);
+  for(uint i=0; i<plaintext.size(); i++)
+  {
+    PRINT(unsigned(plaintext[i]));
+    PRINT(" --> ");
+    PRINTL(plaintext[i]);
+  }
+
+
 
   return "";
 }
