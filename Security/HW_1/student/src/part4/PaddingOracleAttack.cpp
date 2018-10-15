@@ -94,18 +94,13 @@ std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
   /* Assuming that the last n bytes are n...lets see what happens */
 
   /*This is just to guess the last plaintext byte. Which should be 13 */
-  std::vector<uint8_t> guess_ciphertext(ciphertext.begin(), ciphertext.end());
-  // uint SecLastBlockStart = guess_ciphertext.size()-2*blockSize;
-  // uint SecLastBlockEnd = SecLastBlockStart+15;
 
   /* This is to decrypt one block */
-  std::vector<uint8_t> lastBlock(guess_ciphertext.end()-blockSize, guess_ciphertext.end());
-  std::vector<uint8_t> secLastBlock(guess_ciphertext.end()-2*blockSize,
-                                    guess_ciphertext.end()-blockSize);
+  std::vector<uint8_t> lastBlock(ciphertext.end()-blockSize, ciphertext.end());
+  std::vector<uint8_t> secLastBlock(ciphertext.end()-2*blockSize,
+                                    ciphertext.end()-blockSize);
+  /* ---------------------------------------------------------------------- */
 
-  // // print_ciphertext(ciphertext);
-  // // print_ciphertext(secLastBlock);
-  // // print_ciphertext(lastBlock);
   /* The value you want the padding bytes to take */
   uint goal = 1;
   uint known_bytes = 0;
@@ -120,7 +115,6 @@ std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
     {
       /* change guess value to value that can be xor'd with the key_block */
       /* to get the goal */
-      // PRINTL(blockSize-j);
       uint8_t num = key_block[blockSize-j] ^ (goal);
       guess_block_ciphertext[blockSize-j] = num;
       assert((guess_block_ciphertext[blockSize-j] ^ key_block[blockSize-j]) == goal);
@@ -137,6 +131,9 @@ std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
       if(valid)
       {
         key_block[blockSize-goal] = goal ^ j;
+        std::vector<uint8_t> v = XORVector(key_block, guess_block_ciphertext);
+        // print_ciphertext(v);
+
         known_bytes++;
         goal++;
         found_valid = true;
@@ -147,14 +144,17 @@ std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
     /* Enter this if statement if you've hit the real padding value */
     /* Should probably add some check of correctness here */
     if(!found_valid){
+      guess_block_ciphertext[blockSize-goal] = current_value;
+      assert(o.isValid(guess_block_ciphertext, lastBlock));
       key_block[blockSize-goal] = goal^current_value;
+      std::vector<uint8_t> v = XORVector(key_block, guess_block_ciphertext);
+      // print_ciphertext(v);
       known_bytes++;
       goal++;
       found_valid = true;
     }
-
   }
-  std::vector<uint8_t> decrypted_block = XORVector(key_block, lastBlock);
+  std::vector<uint8_t> decrypted_block = XORVector(key_block, secLastBlock);
   print_ciphertext(decrypted_block);
 
   PRINT("NUM KNOWN BYTES: ");
