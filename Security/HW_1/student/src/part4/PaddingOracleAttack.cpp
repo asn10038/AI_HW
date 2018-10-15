@@ -165,7 +165,7 @@ std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
   uint num_blocks = ciphertext.size()/blockSize;
   // print_ciphertext(ciphertext);
   std::vector<uint8_t> plaintext;
-  for(int i=num_blocks; i>0; i--)
+  for(uint i=1; i<=num_blocks; i++)
   {
     uint8_t lastBlockEnd = blockSize*i;
     uint8_t lastBlockBegin = lastBlockEnd - blockSize;
@@ -190,14 +190,9 @@ std::string PaddingOracleAttack::grader_decrypt(PaddingOracle &o) {
     // PRINTL(" ");
   }
   print_ciphertext(plaintext);
-  for(uint i=0; i<plaintext.size(); i++)
-  {
-    PRINT(unsigned(plaintext[i]));
-    PRINT(" --> ");
-    PRINTL(plaintext[i]);
-  }
+  std::string str(plaintext.begin(), plaintext.end());
 
 
 
-  return "";
+  return str;
 }
