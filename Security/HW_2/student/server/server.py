@@ -138,7 +138,7 @@ def xss(vuln_type, level):
         elif 'high' == level:
             comment = re.sub(r'/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', comment)
             content += 'Comment:' + comment
-            pass
+            
     elif '2' == vuln_type:
         content += "<h3>The Stored Kind</h3>\n"
 
