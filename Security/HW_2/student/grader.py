@@ -16,6 +16,12 @@ def xss_verify(vuln_type, password):
         print("XSS Reflected high: PASS password is -- " + str(password))
     elif vuln_type == 'reflected_high' and password != "Me want cookie!":
         print("XSS Reflected high: FAILED password is -- " + str(password))
+
+    if vuln_type == 'stored_low' and password == "Me eat cookie!":
+        print("XSS Stored low: PASS password is -- " + str(password))
+    elif vuln_type == 'stored_low' and password != "Me eat cookie!":
+        print("XSS Stored low: FAILED password is -- " + str(password))
+
     return
 
 def sql_verify(level, user_pass_list):

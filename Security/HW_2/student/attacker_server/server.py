@@ -16,11 +16,16 @@ def steal_cookie(vuln_type):
     """
     received_cookie = request.args.get('cookie', default='') # Reads the `cookie` parameter
 
-    if vuln_type=='reflected_low' or vuln_type == 'reflected_medium' or vuln_type=='reflected_high':
-
+    if (vuln_type == 'reflected_low' or vuln_type == 'reflected_medium' or vuln_type=='reflected_high'):
         password64=received_cookie.split('=')[-1]
         password = base64.b64decode(password64).decode('utf-8')
+        grader.xss_verify(vuln_type, password) # Remember to decode the password.
 
+    elif vuln_type == 'stored_low':
+        # print("Received Cookie: " + received_cookie)
+        ind = received_cookie.find('password=')
+        password64 = received_cookie[ind+len('password='):]
+        password = base64.b64decode(password64).decode('utf-8')
         grader.xss_verify(vuln_type, password) # Remember to decode the password.
 
     return received_cookie+'\n'
