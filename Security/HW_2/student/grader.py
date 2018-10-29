@@ -76,7 +76,7 @@ def command_injection_verify(level, flag):
         if flag == "You are invincible!":
             print("Command Injection High: PASS")
         else:
-            print("Command Injection High: FAIL -- " + flag)
+            print("Command Injection Medium: FAIL -- " + flag)
 
 
 def csrf_verify(level, secret_msg, comments):

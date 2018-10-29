@@ -9,12 +9,6 @@ TARGET_SERVER_ENDPOINT = 'http://localhost:1337'
 ATTACKER_SERVER_ENDPOINT = 'http://localhost:1338'
 
 def xss(vuln_type, level):
-    # TODO remove this if statement
-    if(vuln_type != '3'):
-        return
-    if(level != 'low' and level != 'medium' and level != 'high'):
-        return
-
     options = Options()
     options.add_argument("--headless")
     driver = webdriver.Firefox(options=options) # Starts the browser
@@ -169,10 +163,10 @@ if __name__ == '__main__':
     # The code below can be used as an example.
 
     # Commenting out this code until this piece is implemented
-    # for level in ['low', 'medium', 'high']:
-        # command_injection(level)
-    #
-    # sql()
+    for level in ['low', 'medium', 'high']:
+        command_injection(level)
+    
+    sql()
 
     for vuln_type in ['1', '2', '3']:
         for level in ['low', 'medium', 'high']:
