@@ -50,10 +50,34 @@ def xss_verify(vuln_type, password):
     return
 
 def sql_verify(level, user_pass_list):
-    pass
+    if level != 'low':
+        print("FAIL SQL VERIFY")
+    answer = [['admin', '7en8aiDoh!'], ['dricci', '12345'], ['amason', 'gandalf']]
+    for ind, item in enumerate(user_pass_list):
+        if item[0] != answer[ind][0] or item[1] != answer[ind][1]:
+            print("FAIL SQL VERIFY")
+            return
+    print("PASS SQL VERIFY")
 
 def command_injection_verify(level, flag):
-    pass
+    if level == 'low':
+        if flag == 'Come with me if you want to live':
+            print("Command Injection Low: PASS")
+        else:
+            print("Command Injection Low: FAIL -- " + flag )
+
+    if level == 'medium':
+        if flag == "Looks like you'll live":
+            print("Command Injection Medium: PASS")
+        else:
+            print("Command Injection Medium: FAIL -- " + flag)
+
+    if level == 'high':
+        if flag == "You are invincible!":
+            print("Command Injection High: PASS")
+        else:
+            print("Command Injection High: FAIL -- " + flag)
+
 
 def csrf_verify(level, secret_msg, comments):
     pass
