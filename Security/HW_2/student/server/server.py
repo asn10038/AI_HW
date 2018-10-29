@@ -16,6 +16,7 @@ import re
 import time
 import subprocess
 import ipaddress
+from urllib import parse
 
 app = Flask(__name__)
 
@@ -136,9 +137,9 @@ def xss(vuln_type, level):
             comment = comment.replace('<script>', '')
             content += 'Comment:' + comment
         elif 'high' == level:
-            comment = re.sub(r'/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', comment)
+            comment = re.sub(r'<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t', '', comment, flags=re.IGNORECASE)
             content += 'Comment:' + comment
-
+            pass
     elif '2' == vuln_type:
         content += "<h3>The Stored Kind</h3>\n"
 
@@ -149,7 +150,7 @@ def xss(vuln_type, level):
                 comment = comment.replace('<script>', '')
                 comment = comment.replace('</script>', '')
             elif 'high' == level:
-                comment = re.sub(r'/<[a-z]*>/i', '', comment)
+                comment = re.sub(r'<[a-z]*>', '', comment, flags=re.IGNORECASE)
 
             cursor.execute("INSERT INTO comments VALUES(NULL, '%s', '%s')" % (comment, time.ctime()))
 
@@ -205,7 +206,8 @@ def csrf_target(level):
         if 'low' == level or not level:
             pass
         elif 'medium' == level:
-            if 'csrf_target' not in request.referrer:
+            split = parse.urlsplit(request.referrer)
+            if 'csrf_target' not in split.path:
                 abort(404)
 
         cursor.execute("INSERT INTO comments VALUES(NULL, '%s', '%s')" % (comment, time.ctime()))

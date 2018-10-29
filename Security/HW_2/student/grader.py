@@ -22,6 +22,31 @@ def xss_verify(vuln_type, password):
     elif vuln_type == 'stored_low' and password != "Me eat cookie!":
         print("XSS Stored low: FAILED password is -- " + str(password))
 
+    if vuln_type == 'stored_medium' and password == "Me eat cookie!":
+        print("XSS Stored Medium: PASS password is -- " + str(password))
+    elif vuln_type == 'stored_medium' and password != "Me eat cookie!":
+        print("XSS Stored Medium: FAILED password is -- " + str(password))
+
+    if vuln_type == 'stored_high' and password == "Me eat cookie!":
+        print("XSS Stored High: PASS password is -- " + str(password))
+    elif vuln_type == 'stored_high' and password != "Me eat cookie!":
+        print("XSS Stored High: FAILED password is -- " + str(password))
+
+    if vuln_type == 'DOM_low' and password == "Om nom nom nom!":
+        print("XSS DOM Low: PASS password is -- " + str(password))
+    elif vuln_type == 'DOM_low' and password != "Om nom nom nom!":
+        print("XSS DOM Low: FAILED password is -- " + str(password))
+
+    if vuln_type == 'DOM_medium' and password == "Om nom nom nom!":
+        print("XSS DOM Medium: PASS password is -- " + str(password))
+    elif vuln_type == 'DOM_medium' and password != "Om nom nom nom!":
+        print("XSS DOM Medium: FAILED password is -- " + str(password))
+
+    if vuln_type == 'DOM_high' and password == "Om nom nom nom!":
+        print("XSS DOM High: PASS password is -- " + str(password))
+    elif vuln_type == 'DOM_high' and password != "Om nom nom nom!":
+        print("XSS DOM High: FAILED password is -- " + str(password))
+
     return
 
 def sql_verify(level, user_pass_list):
