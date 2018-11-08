@@ -5,7 +5,7 @@ import sys
 class FrozenLake(object):
 
     def __init__(self, width, height, start, targets, blocked, holes):
-        self.initial_state = start 
+        self.initial_state = start
         self.width = width
         self.height = height
         self.targets = targets
@@ -49,23 +49,23 @@ class FrozenLake(object):
         elif action=="w":
             success = (x-1,y)
             fail= [(x,y-1), (x,y+1)]
-          
+
         if success[0] < 0 or success[0] > self.width-1 or \
            success[1] < 0 or success[1] > self.height-1 or \
-           success in self.blocked: 
+           success in self.blocked:
                 remain_p += self.success_prob
-        else: 
+        else:
             result.append((success, self.success_prob))
-        
+
         for i,j in fail:
             if i < 0 or i > self.width-1 or \
                j < 0 or j > self.height-1 or \
-               (i,j) in self.blocked: 
+               (i,j) in self.blocked:
                     remain_p += (1-self.success_prob)/2
-            else: 
+            else:
                 result.append(((i,j), (1-self.success_prob)/2))
-           
-        if remain_p > 0.0: 
+
+        if remain_p > 0.0:
             result.append(((x,y), remain_p))
         return result
 
@@ -201,7 +201,27 @@ class FrozenLake(object):
 
 
     #### Your code starts here ###
+    def is_blocked_state(self, state):
+        '''Returns true if non passable object in state or out of bounds'''
+        if state in self.blocked:
+            return True
+        if (state not in self.states and
+           state not in self.blocked and
+           state not in self.holes and
+           state not in self.targets):
+            return True
+        return False
 
+    def get_state_value(self, state):
+        '''Get the value of the state'''
+        if state in self.holes:
+            return -5
+        if state in self.targets:
+            return 1
+        return 0
+
+
+    # threshold=0.001
     def value_iteration(self, threshold=0.001):
         """
         The value iteration algorithm to iteratively compute an optimal
@@ -210,6 +230,46 @@ class FrozenLake(object):
         values = dict((state, 0.0) for state in self.states)
         ### YOUR CODE HERE ###
 
+        #intialize terminal states
+        for hole in self.holes: values[hole] = -5
+        for target in self.targets: values[target] = 1
+
+
+        discount = .9
+        living_reward = -.1
+        while True:
+            max_change = 0
+            new_values = dict(values)
+
+            for state in values:
+                #skip the terminal states and blocked states
+                if state in self.holes or state in self.targets or state in self.blocked: continue
+
+                max_value = -1000
+                # for each possible action
+                for action in self.actions:
+                    possible_transitions = self.get_transitions(state, action)
+                    new_value = 0
+                    # calculate the value of that action
+                    for transition in possible_transitions:
+                        next_state, prob = transition
+                        # don't include blocked state or illegal states in possible transitions
+                        if self.is_blocked_state(next_state):
+                            continue
+
+
+                        new_value += prob*(living_reward + discount*values[next_state])
+                    if new_value > max_value:
+                        max_value = new_value
+                #update new values
+                new_values[state] = max_value
+                change = abs(values[state] - new_values[state])
+                if change > max_change:
+                    max_change = change
+            #update the values with the new values
+            values = new_values
+            if max_change < threshold:
+                break
         return values
 
     def extract_policy(self, values):
@@ -218,6 +278,26 @@ class FrozenLake(object):
         """
         policy = {}
         ### YOUR CODE HERE ###
+        living_reward = -.1
+        discount = .9
+        for state in self.states:
+            optimal_value = -1000
+            optimal_action = ''
+            for action in self.actions:
+                possible_transitions = self.get_transitions(state, action)
+                new_value = 0
+                for transition in possible_transitions:
+                    # calculate the value of that action
+                    next_state, prob = transition
+                    # don't include blocked state or illegal states in possible transitions
+                    if self.is_blocked_state(next_state):
+                        continue
+                    new_value += prob*(living_reward + discount*values[next_state])
+                if new_value > optimal_value:
+                    optimal_value = new_value
+                    optimal_action = action
+            policy[state] = optimal_action
+
 
         return policy
 
@@ -238,7 +318,7 @@ class FrozenLake(object):
 
 
 if __name__ == "__main__":
-   
+
     # Create a lake simulation
     width = 8
     height = 8
@@ -253,11 +333,11 @@ if __name__ == "__main__":
     lake.print_map(rand_policy)
     print(lake.test_policy(rand_policy))
 
-    # opt_values = lake.value_iteration()
-    # lake.print_values(opt_values)
-    # opt_policy = lake.extract_policy(opt_values)
-    # lake.print_map(opt_policy)
-    # print(lake.test_policy(opt_policy))
+    opt_values = lake.value_iteration()
+    lake.print_values(opt_values)
+    opt_policy = lake.extract_policy(opt_values)
+    lake.print_map(opt_policy)
+    print(lake.test_policy(opt_policy))
     #
     # Qvalues = lake.Qlearner(alpha=0.5, epsilon=0.5, num_robots=10)
     # learned_values = lake.QValue_to_value(Qvalues)
