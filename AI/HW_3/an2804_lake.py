@@ -220,8 +220,6 @@ class FrozenLake(object):
             return 1
         return 0
 
-
-    # threshold=0.001
     def value_iteration(self, threshold=0.001):
         """
         The value iteration algorithm to iteratively compute an optimal
@@ -292,7 +290,13 @@ class FrozenLake(object):
                     # don't include blocked state or illegal states in possible transitions
                     if self.is_blocked_state(next_state):
                         continue
-                    new_value += prob*(living_reward + discount*values[next_state])
+                    next_state_value = -1000
+                    if next_state in self.holes: next_state_value = -5
+                    elif next_state in self.targets: next_state_value = 1
+                    elif next_state in values: next_state_value = values[next_state]
+                    else: raise ValueError('Invalid state: {}'.format(next_state))
+
+                    new_value += prob*(living_reward + discount *next_state_value)
                 if new_value > optimal_value:
                     optimal_value = new_value
                     optimal_action = action
@@ -301,6 +305,41 @@ class FrozenLake(object):
 
         return policy
 
+    def get_robot_move(self, epsilon, Qvalues, robot_state):
+        '''decides where to move the robot'''
+
+        best_act_value, best_action = self.get_best_Qvalue_action(Qvalues, robot_state)
+
+        action = ''
+        rand = random.randint(0,100)
+
+        valid_actions = []
+        for action in self.actions:
+            next_state = self.move(robot_state, action)
+            if next_state in self.states or next_state in self.holes or next_state in self.targets:
+                valid_actions.append(action)
+        if rand < epsilon*100:
+            action = valid_actions[random.randint(0, len(valid_actions)-1)]
+        else:
+            action = best_action
+        return action
+
+    def get_best_Qvalue_action(self, Qvalues, robot_state):
+        best_act_value = -1000
+        best_action = ''
+        for action in self.actions:
+            next_state = self.move(robot_state, action)
+            next_state_value = -1000
+            if next_state in self.states: next_state_value = Qvalues[(next_state, action)]
+            elif next_state in self.holes: next_state_value = -5
+            elif next_state in self.targets: next_state_value = 1
+            else: continue
+
+            if next_state_value > best_act_value:
+                best_act_value = next_state_value
+                best_action = action
+
+        return (best_act_value, best_action)
 
     def Qlearner(self, alpha, epsilon, num_robots):
         """
@@ -313,6 +352,25 @@ class FrozenLake(object):
                 Qvalues[(state, action)] = 0
 
         ### YOUR CODE HERE ###
+        #for each robot
+        discount = .9
+        living_reward = -.1
+        for x in range(num_robots):
+            # robot starts at start state
+            robot_state = self.initial_state
+            # while robot not in terminal state
+            while robot_state not in self.holes and robot_state not in self.targets:
+                action = self.get_robot_move(epsilon, Qvalues, robot_state)
+                next_state = self.move(robot_state, action)
+                #find the best q value for s'
+                if next_state in self.states:
+                    best_next_state_value, best_next_state_action = self.get_best_Qvalue_action(Qvalues, next_state)
+                    Qvalues[(robot_state, action)] = (1-alpha)*Qvalues[(robot_state, action)] + alpha*(living_reward + discount*best_next_state_value)
+                elif next_state in self.holes or next_state in self.targets or next_state in self.blocked:
+                    Qvalues[(robot_state, action)] = (1-alpha)*Qvalues[(robot_state, action)] + alpha*(living_reward + discount*self.get_state_value(next_state))
+
+                # move robot
+                robot_state = next_state
 
         return Qvalues
 
@@ -328,19 +386,19 @@ if __name__ == "__main__":
     holes = set([(4, 0), (4, 1), (3, 0), (3, 1), (6, 4), (6, 5), (0, 7), (0, 6), (1, 7)])
     lake = FrozenLake(width, height, start, targets, blocked, holes)
 
-    rand_policy = lake.get_random_policy()
-    lake.print_map()
-    lake.print_map(rand_policy)
-    print(lake.test_policy(rand_policy))
-
-    opt_values = lake.value_iteration()
-    lake.print_values(opt_values)
-    opt_policy = lake.extract_policy(opt_values)
-    lake.print_map(opt_policy)
-    print(lake.test_policy(opt_policy))
+    # rand_policy = lake.get_random_policy()
+    # lake.print_map()
+    # lake.print_map(rand_policy)
+    # print(lake.test_policy(rand_policy))
     #
-    # Qvalues = lake.Qlearner(alpha=0.5, epsilon=0.5, num_robots=10)
-    # learned_values = lake.QValue_to_value(Qvalues)
-    # learned_policy = lake.extract_policy(learned_values)
-    # lake.print_map(learned_policy)
-    # print(lake.test_policy(learned_policy))
+    # opt_values = lake.value_iteration()
+    # lake.print_values(opt_values)
+    # opt_policy = lake.extract_policy(opt_values)
+    # lake.print_map(opt_policy)
+    # print(lake.test_policy(opt_policy))
+
+    Qvalues = lake.Qlearner(alpha=0.5, epsilon=0.5, num_robots=10)
+    learned_values = lake.QValue_to_value(Qvalues)
+    learned_policy = lake.extract_policy(learned_values)
+    lake.print_map(learned_policy)
+    print(lake.test_policy(learned_policy))
