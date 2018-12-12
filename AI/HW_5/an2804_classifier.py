@@ -2,6 +2,26 @@ import sys
 import string
 import math
 
+"""
+Report on before and after values  without extra credit stopfile and changes to extract words--
+
+Without tuning:
+train --> 0.9751121076233183
+test --> 0.9676840215439856
+dev(held out) --> 0.9515260323159784
+
+With tuning k=.02:
+train --> 0.9968609865470852
+test --> 0.9802513464991023
+dev --> 0.9802513464991023
+----------------------------------------------------------------------------
+Changes to extract words allowing for some punctuation, stopfile_mini.txt and k=.02
+train --> 0.997085201793722 (slightly better)
+test --> 0.9820466786355476 (slightly better)
+dev --> 0.9748653500897666 (.5% worse)
+
+
+"""
 class NbClassifier(object):
 
     """
@@ -26,7 +46,7 @@ class NbClassifier(object):
     You should not need to modify this unless you want to improve your classifier in the extra credit portion.
     """
     def extract_words(self, text):
-        no_punct_text = "".join([x for x in text.lower() if not x in string.punctuation])
+        no_punct_text = "".join([x for x in text.lower() if not x in string.punctuation or x in ['$', '!', '*', '&', '?']])
         return [word for word in no_punct_text.split()]
 
 
@@ -35,7 +55,11 @@ class NbClassifier(object):
     Implement this for extra credit.
     """
     def remove_stopwords(self, stopword_file):
-        self.attribute_types.difference(set())
+        with open(stopword_file):
+            stopwords = []
+            for line in stopword_file:
+                stopwords.append(line)
+        self.attribute_types.difference(set(stopwords))
 
     """
     Given a training datafile, add all features that appear at least m times to self.attribute_types
@@ -64,7 +88,7 @@ class NbClassifier(object):
     Given a training datafile, estimate the model probability parameters P(Y) and P(F|Y).
     Estimates should be smoothed using the smoothing parameter k.
     """
-    def train(self, training_filename, k=1):
+    def train(self, training_filename, k=.02):
         self.label_prior = {}
         self.word_given_label = {}
 
@@ -101,9 +125,8 @@ class NbClassifier(object):
 
         # denominator = count_prior_sum + k*len(self.attribute_types)
         spam_denominator = count_prior['spam'] + k*len(self.attribute_types)
-        print(spam_denominator)
         ham_denominator = count_prior['ham'] + k*len(self.attribute_types)
-        print(ham_denominator)
+
 
 
         for word in self.attribute_types:
