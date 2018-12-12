@@ -114,7 +114,6 @@ class NbClassifier(object):
             word_ham = (word, 'ham')
             numerator = count_words_ham[word] + k
             self.word_given_label[word_ham] = numerator/ham_denominator
-        print(self.word_given_label)
 
 
     """
@@ -127,7 +126,7 @@ class NbClassifier(object):
         result = {}
         for label in self.label_prior:
             prob = math.log(self.label_prior[label])
-            for word in text:
+            for word in self.extract_words(text):
                 try:
                     prob += math.log(self.word_given_label[(word, label)])
                 except KeyError:
