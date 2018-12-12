@@ -41,22 +41,21 @@ class NbClassifier(object):
     Given a training datafile, add all features that appear at least m times to self.attribute_types
     """
     def collect_attribute_types(self, training_filename, m=1):
-
         counts = {}
         result = []
         with open(training_filename) as training_file:
             for line in training_file:
-                words = line.split()
+                splt = line.split('\t')
+                words = self.extract_words(splt[1])
                 #for each word excluding the training labe
-                for word in words[1:]:
+                for word in words:
                     if word not in counts:
                         counts[word] = 1
                     else:
                         counts[word] += 1
         for word in counts:
-            if counts[word] > m:
+            if counts[word] >= m:
                 result.append(word)
-
 
         self.attribute_types = set(result)
 
@@ -72,7 +71,6 @@ class NbClassifier(object):
         count_prior = {'ham': 0, 'spam': 0}
         count_words_spam = {}
         count_words_ham = {}
-        all_words = set()
         with open(training_filename) as training_file:
             for line in training_file:
                 splt = line.split('\t')
@@ -85,8 +83,6 @@ class NbClassifier(object):
                     count_prior[label] = 1
 
                 for word in words:
-                    if word not in all_words:
-                        all_words.add(word)
                     if label == 'spam':
                         if word in count_words_spam:
                             count_words_spam[word] += 1
@@ -103,17 +99,22 @@ class NbClassifier(object):
         for label in count_prior:
             self.label_prior[label] = count_prior[label]/count_prior_sum
 
+        # denominator = count_prior_sum + k*len(self.attribute_types)
+        spam_denominator = count_prior['spam'] + k*len(self.attribute_types)
+        print(spam_denominator)
+        ham_denominator = count_prior['ham'] + k*len(self.attribute_types)
+        print(ham_denominator)
+
         for word in count_words_spam:
             word_spam = (word, 'spam')
             numerator = count_words_spam[word] + k
-            denominator = count_prior_sum + k*len(all_words)
-            self.word_given_label[word_spam] = numerator/denominator
+            self.word_given_label[word_spam] = numerator/spam_denominator
 
         for word in count_words_ham:
             word_ham = (word, 'ham')
             numerator = count_words_ham[word] + k
-            denominator = count_prior_sum + k*len(all_words)
-            self.word_given_label[word_ham] = numerator/denominator
+            self.word_given_label[word_ham] = numerator/ham_denominator
+        print(self.word_given_label)
 
 
     """
@@ -128,7 +129,7 @@ class NbClassifier(object):
             prob = math.log(self.label_prior[label])
             for word in text:
                 try:
-                    prob += self.word_given_label[(word, label)]
+                    prob += math.log(self.word_given_label[(word, label)])
                 except KeyError:
                     pass
             result[label] = prob
