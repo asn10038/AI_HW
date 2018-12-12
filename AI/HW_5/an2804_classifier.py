@@ -105,16 +105,22 @@ class NbClassifier(object):
         ham_denominator = count_prior['ham'] + k*len(self.attribute_types)
         print(ham_denominator)
 
-        for word in count_words_spam:
+
+        for word in self.attribute_types:
             word_spam = (word, 'spam')
-            numerator = count_words_spam[word] + k
-            self.word_given_label[word_spam] = numerator/spam_denominator
+            if word in count_words_spam:
+                spam_numerator = count_words_spam[word] + k
+            else:
+                spam_numerator = 0 + k
 
-        for word in count_words_ham:
             word_ham = (word, 'ham')
-            numerator = count_words_ham[word] + k
-            self.word_given_label[word_ham] = numerator/ham_denominator
+            if word in count_words_ham:
+                ham_numerator = count_words_ham[word] + k
+            else:
+                ham_numerator = 0+k
 
+            self.word_given_label[word_spam] = spam_numerator/spam_denominator
+            self.word_given_label[word_ham] = ham_numerator/ham_denominator
 
     """
     Given a piece of text, return a relative belief distribution over all possible labels.
