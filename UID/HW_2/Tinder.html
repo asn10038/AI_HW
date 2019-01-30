@@ -1,27 +1,30 @@
 <html>
   <head>
     <style>
-    .like-me-button {
+    .fuck-me-button {
       text-align: center;
-      font-size: 17px;
-      margin-left: 180px;
+      font-size: 20px;
+      margin-left: 150px;
       margin-top: 5px;
       background-color: #bbbcbf;
       color: white;
-      border-radius: 10px;
+      border-radius: 25px;
+      width: 300px;
+      border-style: solid;
     }
     #button-heart {
-      height: 15px;
-      width: 15px;
+      height: 20px;
+      width: 20px;
+      vertical-align: middle;
     }
     #profile-name {
       padding-left: 20px;
       font-weight: bold;
-      font-size: 17px;
+      font-size: 20px;
     }
     #verified {
       padding-left: 20px;
-      font-size: 12px;
+      font-size: 15px;
       color: gray;
     }
     .logo {
@@ -36,16 +39,31 @@
       border-color: white;
       border-width: 1px;
       box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+      padding-top: 20px;
+      padding-bottom: 5px;
     }
     #button-text {
       margin-left: 2px;
       margin-right: 5px;
+      font-weight: bold;
+      vertical-align: middle
     }
     #new {
       margin-top: 5px;
-      margin-bottom: 5px;
+      margin-bottom: 20px;
       border-top: 1px solid #bbbcbf;
       width: 550px;
+    }
+    #check-mark {
+      height: .9em;
+      width: .9em;
+      padding-top: px;
+    }
+    #button-content{
+      padding-top: 10px;
+    }
+    #name-check {
+      margin-bottom: 15px
     }
     </style>
   </head>
@@ -58,14 +76,18 @@
     <div class=profile-info>
       <img src="http://coms4170.cs.columbia.edu/2019-spring/assignments/hw2/tinder_images/tinder_person.png"><br>
       <div id=profile-text>
-        <span id="profile-name"> Sean Rad, 29 </span> <img src="http://coms4170.cs.columbia.edu/2019-spring/assignments/hw2/tinder_images/tinder_verified.png"><br>
+        <div id="name-check">
+          <span id="profile-name"> Sean Rad, 29 </span> <img id="check-mark" src="http://coms4170.cs.columbia.edu/2019-spring/assignments/hw2/tinder_images/tinder_verified.png"><br>
+        </div>
         <span id="verified"> Verified </span>
       </div>
     </div>
     <div>
-      <button class="like-me-button">
+      <button class="fuck-me-button">
+        <div id="button-content">
         <img id="button-heart" src="http://coms4170.cs.columbia.edu/2019-spring/assignments/hw2/tinder_images/heart.png">
-        <span id=button-text> Fuck Me on Tinder </span>
+        <span id=button-text> Fuck Me On Tinder </span>
+        <div id="button-content">
       </button>
     </div>
   </body>
