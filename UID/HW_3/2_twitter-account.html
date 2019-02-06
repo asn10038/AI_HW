@@ -98,24 +98,33 @@
     .tiny-pic {
       height: 50px;
       width: 75px;
-      float:left;
+      float: left;
+      margin-right: 25px;
+      margin-left: 15px;
     }
     .follow-name {
-      float:left;
-      margin-left: 10px;
     }
     .follow-button {
-      float:left;
-      margin-left: 10px;
+      float: left;
       padding-top: 3px;
       padding-bottom: 3px;
       padding-left: 8px;
       padding-right: 8px;
     }
     .follow-item {
+      clear:left;
     }
-    .blank-div {
-      height: 3px;
+    .my-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .my-column {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 100%;
+      flex: 1;
     }
   </style>
 </head>
@@ -227,27 +236,48 @@
           <div class="tile-header">
             What to Follow
           </div>
-          <div class="follow-item">
-            <div class="tiny-pic">
+
+          <div class="row">
+            <div class="tiny-pic column">
               <img src="./columbia.jpg"></img>
             </div>
-            <div class="follow-name">
-              Columbia
-            </div>
-            <div class="follow-button fake-button">
-              Follow
+            <div class="column">
+              <div class="row">
+                Columbia
+              </div>
+              <div class="follow-button fake-button row">
+                Follow
+              </div>
             </div>
           </div>
+          <hr>
 
-          <div class="follow-item">
-            <div class="tiny-pic">
+          <div class="row">
+            <div class="tiny-pic column">
               <img src="./columbia.jpg"></img>
             </div>
-            <div class="follow-name">
-              Columbia
+            <div class="column">
+              <div class="row">
+                Columbia
+              </div>
+              <div class="follow-button fake-button row">
+                Follow
+              </div>
             </div>
-            <div class="follow-button fake-button">
-              Follow
+          </div>
+          <hr>
+
+          <div class="row">
+            <div class="tiny-pic column">
+              <img src="./columbia.jpg"></img>
+            </div>
+            <div class="column">
+              <div class="row">
+                Columbia
+              </div>
+              <div class="follow-button fake-button row">
+                Follow
+              </div>
             </div>
           </div>
         </div>
