@@ -9,6 +9,9 @@ crossorigin="anonymous">
   <style>
   </style>
   <script>
+    // CONSTANTS
+    var MAX_LENGTH = 30;
+
     //This is the js that runs the page
     function submitTweet(){
       //get the text from the text area
@@ -18,6 +21,29 @@ crossorigin="anonymous">
       $('#tweet-list').prepend(tweet_text);
       $('#tweet-text-area').val('');
     };
+
+    function updateCharLeft() {
+      //Max length of tweet
+      var current_length;
+      if(typeof $('#tweet-text-area').val() !== 'undefined')
+        current_length = $('#tweet-text-area').val().length;
+      else
+        current_length = 0;
+      remaining_characters = MAX_LENGTH - current_length;
+      $('#char-rem-count').text(remaining_characters);
+    }
+
+    //setup
+    function setup() {
+      $('#tweet-text-area').val('');
+      $('#char-rem-count').text(MAX_LENGTH);
+      //register change handler for the textarea
+      $('#tweet-text-area').keypress(updateCharLeft());
+    }
+
+    $(document).ready( function() {
+      setup();
+    });
   </script>
 </head>
 <body>
