@@ -6,10 +6,17 @@ integrity="sha384-
 GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
   <style>
   </style>
   <script>
+    //This is the js that runs the page
+    function submitTweet(){
+      //get the text from the text area
+      var tweet_text = $('#tweet-text-area').val();
+      //clear the text area
+      //Prepend to the list
+      $('#tweet-list').prepend(tweet_text);
+    };
   </script>
 </head>
 <body>
@@ -18,11 +25,11 @@ crossorigin="anonymous">
     <li> tweet tweet tweet </li>
   </ul>
 
-  <textarea>
+  <textarea id="tweet-text-area">
 
   </textarea>
   <p id="char-remaining"> Characters Remaining: <span id="char-rem-count"> </span></p>
-  <button id="tweet-button"> Tweet! </button> 
+  <button id="tweet-button" onclick="submitTweet()"> Tweet! </button>
 
 </body>
 </html>
