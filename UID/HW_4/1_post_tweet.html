@@ -38,7 +38,12 @@ crossorigin="anonymous">
       $('#tweet-text-area').val('');
       $('#char-rem-count').text(MAX_LENGTH);
       //register change handler for the textarea
-      $('#tweet-text-area').keypress(updateCharLeft());
+      // $('input[type=textarea]').bind('input propertychange',
+      //  function() { alert(here);
+      //  });
+      $('#tweet-text-area').bind('input propertychange',
+      function() { updateCharLeft();
+      });
     }
 
     $(document).ready( function() {
