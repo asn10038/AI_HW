@@ -18,7 +18,7 @@ crossorigin="anonymous">
       var tweet_text = $('#tweet-text-area').val();
       //clear the text area
       //Prepend to the list
-      $('#tweet-list').prepend(tweet_text);
+      $('#tweet-list').prepend("<li>" + tweet_text + "</li>");
       $('#tweet-text-area').val('');
     };
 
@@ -37,10 +37,6 @@ crossorigin="anonymous">
     function setup() {
       $('#tweet-text-area').val('');
       $('#char-rem-count').text(MAX_LENGTH);
-      //register change handler for the textarea
-      // $('input[type=textarea]').bind('input propertychange',
-      //  function() { alert(here);
-      //  });
       $('#tweet-text-area').bind('input propertychange',
       function() { updateCharLeft();
       });
