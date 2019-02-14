@@ -32,7 +32,7 @@ Supposed to say kickboxing...instead it looks like kkkboxing.
 
 #### c) Based on the Message what font could they have used instead?
 
-## Kickboxing
+![alt kickboxing-fixed](Kickboxing_Repaired.png "espn screenshot")
 
 #### d) Why is this a better choice?
 * The normal weight of the font makes it readable and doesn't combine the i and the c

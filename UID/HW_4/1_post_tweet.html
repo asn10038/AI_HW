@@ -40,6 +40,7 @@ crossorigin="anonymous">
       $('#tweet-list').prepend("<li class='list-group-item'>" + USER_NAME + " : " + tweet_text + "</li>");
       $('#tweet-text-area').val('');
       updateCharLeft();
+      $("#tweet-text-area").focus();
     };
 
     function updateCharLeft() {
@@ -55,9 +56,11 @@ crossorigin="anonymous">
       var isGrey = $('#char-remaining').hasClass('tiny-grey');
 
       if(remaining_characters >= 0 && isRed) {
+        $('#tweet-button').prop('disabled', false);
         $('#char-remaining').toggleClass('big-red');
         $('#char-remaining').toggleClass('tiny-grey');
       } else if (remaining_characters < 0 && isGrey) {
+        $("#tweet-button").prop('disabled', true);
         $('#char-remaining').toggleClass('big-red');
         $('#char-remaining').toggleClass('tiny-grey');
       }
