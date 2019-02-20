@@ -16,17 +16,51 @@
       #reamInput {
         width: 80px;
       }
+      #inputSales {
+        margin-bottom: 20px;
+      }
     </style>
   </head>
   <body>
-    <h1> Columbia Paper Infinity </h1>
-    <hr>
+    <div class="container">
+      <h1> Columbia Paper Infinity </h1>
+      <hr>
 
     <!--  Input Sales div -->
-    <div>
-      Log your paper sales: <input type="text" id="clientInput" placeholder="Client"> <input type="text" id="reamInput" placeholder="# Reams"> <button id="newOrderButton"> Submit </button>
-    </div>
+      <div class="row" id="inputSales">
+        <div class="col-md-2">
+          Log your paper sales:
+        </div>
+        <div class="col-md-3">
+           <input type="text" id="clientInput" placeholder="Client">
+        </div>
+        <div class="col-md-1">
+          <input type="text" id="reamInput" placeholder="# Reams">
+        </div>
+        <div class="col-md-1">
+          <button id="newOrderButton"> Submit </button>
+        </div>
+      </div>
 
     <!-- Sales List -->
+      <div id="salesList">
+        <div class="row">
+          <div class="col-md-2">
+            Seller Name
+          </div>
+          <div class="col-md-3">
+            Customer Name
+          </div>
+          <div class="col-md-1">
+            1000
+          </div>
+          <div class="col-md-1">
+            <button class="deleteButton">x</button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
   </body>
 </html>
