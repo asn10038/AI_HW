@@ -1,48 +1,49 @@
 <html>
-  <head>
-    <!-- CSS -->
-    <link rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    crossorigin="anonymous">
 
-    <!-- JQuery -->
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<head>
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
 
-    <script type='text/javascript' src='./2_ppc.js'></script>
-    <style>
-      .list-header {
-        font-weight: bold;
-        padding: 20px;
-        background-color: #2aa3df;
-      }
+  <!-- JQuery -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-      .group-list {
-        margin: 10px;
-      }
-      .list-item {
-        border-style: solid;
-        border-color: #adadad;
-        border-width: .5px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1> Party Planning Committee </h1>
+  <script type='text/javascript' src='./2_ppc.js'></script>
+  <style>
+    .list-header {
+      font-weight: bold;
+      padding: 20px;
+      background-color: #2aa3df;
+    }
 
-      <!-- drag/drop div -->
-      <div class="row">
-        <!--  Non - ppc list -->
-        <div class="col-md-3 group-list" id="non-ppc-list">
+    .group-list {
+      margin: 10px;
+    }
 
-          <div class="row list-header">
-            <div id="non-ppc-list-header">
-              PPC
-            </div>
+    .list-item {
+      border-style: solid;
+      border-color: #adadad;
+      border-width: .5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1> Party Planning Committee </h1>
+
+    <!-- drag/drop div -->
+    <div class="row">
+      <!--  Non - ppc list -->
+      <div class="col-md-3 group-list">
+
+        <div class="row list-header" id="non-ppc-list-header">
+          <div>
+            Non-PPC
           </div>
-
+        </div>
+        <div id="non-ppc-list">
           <div class="row list-item">
             <div>
               member1
@@ -50,31 +51,28 @@
           </div>
 
         </div>
-        <!--  ppc list -->
-        <div class="col-md-3 group-list" id="ppc-list">
+      </div>
+      <!--  ppc list -->
+      <div class="col-md-3 group-list">
 
-          <div class="row list-header">
-            <div id="non-ppc-list-header">
-              PPC
-            </div>
+        <div class="row list-header" id="ppc-list-header">
+          <div>
+            PPC
           </div>
-
+        </div>
+        <div id="ppc-list">
           <div class="row list-item">
             <div>
               member1
             </div>
           </div>
 
-          <div class="row list-item">
-            <div>
-              member2
-            </div>
-          </div>
-
         </div>
-
       </div>
 
     </div>
-  </body>
+
+  </div>
+</body>
+
 </html>
