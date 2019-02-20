@@ -98,7 +98,18 @@ function accept_ppc_list_item(ui) {
 }
 
 function install_list_handlers() {
-  $(".list-item").draggable();
+  $(".list-item").draggable({
+    revert: "invalid",
+    stack: ".container"
+  });
+
+  $(".list-item").hover(function() {
+    $(this).addClass('is-draggable');
+  },
+  function() {
+    $(this).removeClass('is-draggable');
+  });
+
 }
 
 function install_handlers() {
@@ -108,13 +119,17 @@ function install_handlers() {
       drop: function(event, ui) {
         accept_non_ppc_list_item(ui)
       },
-      accept: ".non-ppc-list-item"
+      accept: ".non-ppc-list-item",
+      activeClass: "drop-here",
+      hoverClass: "target-selected"
     });
     $("#non-ppc-list-header").droppable({
       drop: function(event, ui) {
         accept_ppc_list_item(ui)
       },
-      accept: ".ppc-list-item"
+      accept: ".ppc-list-item",
+      classes: { "ui-droppable-active" : "drop-here",
+                  "ui-droppable-selected" : "target-selected" }
     });
 }
 // Main
