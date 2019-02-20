@@ -12,7 +12,20 @@
 
     <script type='text/javascript' src='./2_ppc.js'></script>
     <style>
+      .list-header {
+        font-weight: bold;
+        padding: 20px;
+        background-color: #2aa3df;
+      }
 
+      .group-list {
+        margin: 10px;
+      }
+      .list-item {
+        border-style: solid;
+        border-color: #adadad;
+        border-width: .5px;
+      }
     </style>
   </head>
   <body>
@@ -22,27 +35,37 @@
       <!-- drag/drop div -->
       <div class="row">
         <!--  Non - ppc list -->
-        <div class="col-md-3" id="non-ppc-list">
-          <div class="row list-header" id="non-ppc-list-header">
-            Non-PPC
-          </div>
-        </div>
-        <!--  ppc list -->
-        <div class="col-md-3" id="ppc-list">
+        <div class="col-md-3 group-list" id="non-ppc-list">
 
-          <div class="row">
-            <div class="list-header" id="non-ppc-list-header">
+          <div class="row list-header">
+            <div id="non-ppc-list-header">
               PPC
             </div>
           </div>
 
-          <div class="row">
+          <div class="row list-item">
             <div>
               member1
             </div>
           </div>
 
-          <div class="row">
+        </div>
+        <!--  ppc list -->
+        <div class="col-md-3 group-list" id="ppc-list">
+
+          <div class="row list-header">
+            <div id="non-ppc-list-header">
+              PPC
+            </div>
+          </div>
+
+          <div class="row list-item">
+            <div>
+              member1
+            </div>
+          </div>
+
+          <div class="row list-item">
             <div>
               member2
             </div>
