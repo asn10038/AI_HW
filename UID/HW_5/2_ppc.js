@@ -120,8 +120,8 @@ function install_handlers() {
         accept_non_ppc_list_item(ui)
       },
       accept: ".non-ppc-list-item",
-      activeClass: "drop-here",
-      hoverClass: "target-selected"
+      classes: { "ui-droppable-active" : "drop-here",
+                  "ui-droppable-hover" : "target-selected" }
     });
     $("#non-ppc-list-header").droppable({
       drop: function(event, ui) {
@@ -129,7 +129,7 @@ function install_handlers() {
       },
       accept: ".ppc-list-item",
       classes: { "ui-droppable-active" : "drop-here",
-                  "ui-droppable-selected" : "target-selected" }
+                  "ui-droppable-hover" : "target-selected" }
     });
 }
 // Main
