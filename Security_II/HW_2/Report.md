@@ -34,18 +34,60 @@ So in summary the attack works as follows:
 
 ### 3) IPSec History Lecture
 #### a) How did politics contribute to IPsec having an integrity only option (AH)?
-There was an argument over whether they should use the ESP/AH setup a stateful protocol or SKIP a stateless protocol. As such when people are split on technical decisions political motivations make the decision. SKIP was backed by Sun which had an issue with bad Diffie Helman parameters and SKIP didn't allow for changing DH parameters. Ultimately ESP/AH was picked and because of how expensive encryption was on the hardware at the time AH (integrity only) was a rational compromise.
+There are US export controls on cryptography. There needs to be a license to export confidential technology. Authentication technology is not restricted.
 
 #### b) What area of expertise was lacking in the in-person IETF meetings on IPsec?
+The designers had a somewhat limited cryptographic knowledge.
+
+#### c) What was the explanation for having sequence numbers in swipe?
+They were included "to protect against replay" attacks.
+
+#### d)  What benefit did sequence numbers end up providing IP sec?
+They were used to prevent malicious retransmission of packets.  
+
+#### e) Skip was proposed by who? and why wasn't it chosen?
+Skip was proposed by Sun, and it wasn't chosen because it didn't allow for a change in Diffie Helman parameters. Sun had recently had a problem with choosing bad DH parameters.
 
 
+### 4) The chrome browser and usability
+
+#### a) What are the steps a user must perform to see the contents of stored cookies?
+settings -> advanced_settings -> privacy and security -> content settings -> cookies -> see all cookies and site data -> click on particular cookie to see content
+
+#### b) How would you re design this so the user can 1) easily see the contents of cookies and 2) reduce the number of steps to get to the point where the cookies are
+To address concern \#2 I would put a link to the view cookies page in the dropdown where the settings link is.
+To address concern \#1  I think they actually do an ok job at this, but it's all stored in local storage. Making it accessible via the default file system viewer would be a nice touch. Also if there were an alert with all the cookie data any time a website added something to persistent local storage I think that would make the data easier to digest. One at a time rather than a giant block.
+
+#### c) What are handlers and why are they there? Why are they dangerous?
+There are many different types of links on the internet with different types of protocols. The most common protocol http/https is and should be supported by the browser. Links that return types of information that the browser can't understand like email links, calendar links with other unusual protocols need to be handled by other applications. Not the browser. As such chrome allows users to add handlers that automatically open these other applications for these other types of links. The default is to allow this behavior because most people just want to click and open the content. They don't really care what opens it.
+On the web whenever a email address is listed usually it contains a mailto: protocol link. When a user clicks on this usually a new email screen appears with the links associated email address in the to section. What's special about this is that the new email screen is in the users email client not the browser. If one were to disable the handlers this interaction could not take place.
+
+The risk here is that handlers provide links a way to get outside the sandbox of the browser. Usually activity in the browser is restricted to the browser. Now attackers have a way to exploit this handler feature to further exploit another application.
+
+### 5) How do requirements placed on passwords contribute to the insecurity of the password? -- UNSURE
+ Users will always do the bare minimum effort required. As such the passwords minimum requirements need to be secure. However poor usability often means poor security, and users will find workarounds if security measures are too inconvenient. When users find workarounds the whole system's security suffers.
 
 
+### 6) Find an article describing failure rates or issues with facial recognition as a method of authentication?
+On the vulnerability of face recognition systems towards morphed face attacks authored by:
+Ulrich Scherhag et al.
+www.researchgate.net/publication/317245046_On_the_vulnerability_of_face_recognition_systems_towards_morphed_face_attacks
 
+This particular paper deals with attacks in which someone is presenting a form of identification in which they control the image on the ID. The verification system is then processing if the photo presented looks like the person presenting the photo. The particular attack they deal with is the "morphed face attack". The scenario they use as an example is immigration.
 
+In many countries to get a passport one submits a photo which is then scanned and passed to the passport creation office. In this scenario the morphed face attack takes place as follows. Person A is able to travel and has a clean record while person B is on the no fly list for any number of reasons. Person A submits a photo and gets a legitimate passport. Person B uses the passport. Normally this attack is prevented because person A and B don't look alike both to people and to computers. However in a morphed face attack the photo that person A submitted is a photo containing features of both A and B's face. So the resulting photo looks something like both people. A human will notice that it's not exact, but given some explaining and given people A and B probably look somewhat similar anyway it's easy to understand a human may not catch this. The question is whether or not a facial recognition system will. One way to think of this would be a hash collision. Both people map to the same document.
 
+This paper doesn't implement a new version of this attack or propose this attack but evaluates the effectiveness of this attack with different facial recognition systems. They also put together a new dataset of morphed faces and originals for others to use.
 
+In their evaluation they examine the effect of morphed face attacks on 2 different facial recognition systems. The first was the commercial VeriLook SDK and the other was the opensourced OpenFace. They also ran their experiments with both HP and Ricoh scanned images as well as the original.
 
+The success of this attack in their charts and figures is somewhat ambiguous. They found that using Veriface with the original scanned images, HP scanned images, and RICOH scanned images had a attack success probability of 100%, 99.7%, and 97.3% respectively. With OpenFace SDK they found the chances of the attack succeeding in the same order was 80.1%, 62.3%, 70.8%. While I think that these numbers are a bit inflated they are high enough to show that there is a real probability that morphed face attacks could be successful.
+
+### 7) What main issues are the papers addressing? Summarize the experiments about what worked and did not work for addressing this issue.
+
+These 3 papers tackle related challenges under the same umbrella problem. There is almost always a tradeoff between security and usability. The risk is in the fact that when you amp up security at the expense of usability users develop a callousness to security warnings. They tend to just ignore them put them off etc. In the end this makes the system both insecure and unusable. These papers approach some guidelines/warnings to approach this problem.
+
+ 
 
 
 
