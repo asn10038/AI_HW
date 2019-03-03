@@ -45,10 +45,11 @@ var save_sale = function(new_sale) {
       contentType: "application/json; charset=utf-8",
       data : JSON.stringify(data_to_save),
       success: function(result){
-        display_sales_list(result['data']);
+        LOG(result['data'])
+        display_sales_list(result['data']['sales']);
         $('#clientInput').focus();
         //reconfig autocomplete
-        clients = get_clients_from_sales(result['data']);
+        clients = result['data']['clients'];
         setup_autocomplete(clients);
       },
       error: function(request, status, error){
@@ -70,7 +71,7 @@ var delete_sale = function(id) {
       contentType: "application/json; charset=utf-8",
       data : JSON.stringify(data_to_delete),
       success: function(result){
-        display_sales_list(result['data']);
+        display_sales_list(result['data']['sales']);
       },
       error: function(request, status, error){
           console.log("Error");
