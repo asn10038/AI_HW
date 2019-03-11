@@ -20,6 +20,20 @@ def start_crawling():
             res.add(link['href'])
     return res
 
+def find_war_element(soup):
+    divs = soup.find_all('div')
+    for div in divs:
+        if div.descendents is None:
+            continue
+        for desc in div.descendents:
+            try:
+                if "Wins Above Replacement" in div['data-tip']:
+                    print("IM HERE")
+                    print(div)
+                    return div
+            except KeyError as ke:
+                continue
+
 def create_data_object_from_link(link):
     '''create the data object from the link'''
     player = {}
@@ -27,7 +41,9 @@ def create_data_object_from_link(link):
     soup = BeautifulSoup(resp.text, 'html.parser')
     meta = soup.find(id="meta")
     paragraphs = meta.find_all('p')
-    for p in paragraphs:
+    elements = paragraphs
+    WAR_Element = find_war_element(soup)
+    for p in elements:
         parser = pick_parser(p)
         if parser is not None:
             entries = parse_element(parser, p)
@@ -74,15 +90,29 @@ def bats_throws_parser(element):
     splt = text.split(':')
     throws = splt[2]
     bats = splt[1].replace("Throws", '')
-    print(text)
     return {'bats' : bats, 'throws':throws}
 
-def get_bio(bio_url)
+def get_bio(bio_url):
+    print(bio_url)
+    resp = requests.get(bio_url)
+    soup = BeautifulSoup(resp.text, 'html.parser')
+    pars = soup.find_all('p')
+    for p in pars:
+        text = p.getText()
+        if text is not None and len(text) > 100:
+            if len(text) > 500:
+                return text[:500]
+            return text
 
 def bio_parser(element):
-    bio = get_bio(element['href'])
-    return {"bio" : "things"}
+    bio = get_bio(element.find('a')['href'])
+    return {"bio" : bio}
 if __name__ == '__main__':
     #calls the other functions here
     links = start_crawling()
     create_data_object_from_link(links.pop())
+
+
+
+def WAR_parser(element):
+    return {"WAR" : 0.0}
