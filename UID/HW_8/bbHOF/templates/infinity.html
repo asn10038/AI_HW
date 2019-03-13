@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <!-- CSS -->
+    <link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    crossorigin="anonymous">
+
+    <!-- JQuery -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script type="text/javascript" src="{{ url_for('static', filename = 'cu-paper-infinity.js') }}"></script>
+    <style>
+      /* Shorten the ream width */
+      #reamInput {
+        width: 80px;
+      }
+      #inputSales {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1> Columbia Paper Infinity </h1>
+      <hr>
+
+    <!--  Input Sales div -->
+      <div class="row" id="inputSales">
+        <div class="col-md-2">
+          Log your paper sales:
+        </div>
+        <div class="col-md-3">
+           <input type="text" id="clientInput" placeholder="Client">
+        </div>
+        <div class="col-md-1">
+          <input type="text" id="reamInput" placeholder="# Reams">
+        </div>
+        <div class="col-md-1">
+          <button id="newOrderButton"> Submit </button>
+        </div>
+      </div>
+
+    <!-- Sales List -->
+      <div id="salesList">
+      </div>
+
+
+    </div>
+  </body>
+</html>

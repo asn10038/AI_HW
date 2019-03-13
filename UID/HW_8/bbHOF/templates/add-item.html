@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<br>
+<div class="title">
+<h2> Add Player </h2>
+</div>
+<br>
+
+<div class="row">
+<div class="col-md-6" id="addPlayerForm">
+  <div class="input-group mb-3">
+    <!-- <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">@</span>
+  </div> -->
+    <input type="text" class="form-control" placeholder="fullname">
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="throws">
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="bats">
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="born">
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="last game">
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="rookie status">
+  </div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="WAR">
+  </div>
+  <!-- Position checkboxes  -->
+  {% for position in positions %}
+  {% if position == "First Baseman" %}
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="checkbox" id=FirstBasemanInput value={{ position }}>
+    <label class="form-check-label" for=FirstBasemanInput>{{ position }}</label>
+  </div>
+  {% elif position == "Second Baseman" %}
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="checkbox" id=SecondBasemanInput value={{ position }}>
+    <label class="form-check-label" for=SecondBasemanInput>{{ position }}</label>
+  </div>
+  {% elif position == "Third Baseman" %}
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="checkbox" id=ThirdBasemanInput value={{ position }}>
+    <label class="form-check-label" for=ThirdBasemanInput>{{ position }}</label>
+  </div>
+  {% elif position == "Designated Hitter" %}
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="checkbox" id=DHInput value={{ position }}>
+    <label class="form-check-label" for=DHInput>{{ position }}</label>
+  </div>
+  {% else %}
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="checkbox" id={{ position }} Input value={{ position }}>
+    <label class="form-check-label" for={{ position }} Input>{{ position }}</label>
+  </div>
+  {% endif %}
+
+  {% endfor %}
+  <!-- end positions checkbox -->
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Bio</span>
+    </div>
+    <textarea class="form-control" aria-label="Bio"></textarea>
+  </div>
+  <div class="input-group mb-3">
+    <button class="btn btn-primary"> Submit </button>
+  <div>
+</div>
+</div>
+
+{% endblock %}
