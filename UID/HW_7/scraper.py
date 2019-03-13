@@ -2,6 +2,7 @@ import requests
 import logging
 from bs4 import BeautifulSoup
 import json
+from multiprocessing import Pool
 #Constants
 HOF_URL = "https://www.baseball-reference.com/awards/hof.shtml"
 BBR_PREFIX = "https://www.baseball-reference.com"
@@ -10,7 +11,7 @@ PLAYERS = []
 POSITIONS = ["Catcher", "Pitcher", "Designated Hitter", "Centerfielder", "Rightfielder",
              "Leftfielder", "First Baseman", "Second Baseman", "Third Baseman", "Shortstop", "Outfielder" ]
 
-OUTPUT_FILE = './players.json'
+OUTPUT_FILE = './players2.json'
 
 def start_crawling():
     res = set()
@@ -50,7 +51,6 @@ def create_data_object_from_link(link):
             entries = parse_element(parser, p)
             for entry in entries:
                 player[entry] = entries[entry]
-
     return player
 # parser is a function that returns a tuple of data
 def parse_element(parser, element):
@@ -159,9 +159,20 @@ def dump_players():
     with open(OUTPUT_FILE, 'w') as out:
         json.dump(PLAYERS, out)
 
+def add_player_ids():
+    for ind, player in enumerate(PLAYERS):
+        player['id'] = ind
+
+def multiprocess_scrape(links, n):
+    with Pool(5) as p:
+        p.map(create_data_object_from_link, links[:4])
+
 if __name__ == '__main__':
     #calls the other functions here
     links = start_crawling()
+    # multiprocess_scrape(list(links), 3)
     populate_players(links, 45)
+
+    add_player_ids()
     # print(PLAYERS)
     dump_players()
