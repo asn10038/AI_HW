@@ -9,7 +9,7 @@
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script type="text/javascript" src="{{ url_for('static', filename = 'bbHOF.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'add-player.js') }}"></script>
     <style>
       #addPlayerForm {
           border: 1px;
@@ -41,6 +41,29 @@
 
       .closeAlert {
         margin-left: 10px;
+      }
+
+      .playerContainer {
+        background-color: gray;
+        height: 500px;
+      }
+      .playerImage {
+        margin-top: 20px;
+        background-color: blue;
+        height: 300px;
+      }
+      .playerInfo {
+        margin-top: 20px;
+        background-color:green;
+      }
+      .playerDataRow {
+        height: 50px;
+        margin-bottom: 10px;
+      }
+      .playerBio {
+        background-color: red;
+        overflow-wrap: break-word;
+        margin-top: 20px;
       }
     </style>
   </head>

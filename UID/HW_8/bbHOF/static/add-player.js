@@ -127,6 +127,8 @@ function addPlayer() {
         //reconfig autocomplete
         newPlayerLink = result['data']['link-to-view'];
         console.log(newPlayerLink)
+        $('#newPlayerLink').attr('href', newPlayerLink)
+        $('#newPlayerLink').text(newPlayerLink)
         $('#successAdd').show()
         // clearInputs()
       },
