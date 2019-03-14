@@ -9,12 +9,65 @@
 
 <div class="row">
   <div class="col-md-6" id="addPlayerForm">
-    <div class="input-group mb-3">
-      <!-- <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon1">@</span>
-  </div> -->
-      <input id="fullnameInput" type="text" class="form-control" placeholder="fullname">
+    <div id="generalInfoInput">
+      <div class="input-group mb-3">
+        <input id="fullnameInput" type="text" class="form-control" placeholder="fullname">
+      </div>
+      <div class="input-group mb-3">
+        <input id="bornInput" type="text" class="form-control" placeholder="born">
+      </div>
+      <div class="input-group mb-3">
+        <input id="imageURLInput" type="text" class="form-control" placeholder="image_url">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Bio</span>
+        </div>
+        <textarea id="bioInput" class="form-control" aria-label="Bio"></textarea>
+      </div>
     </div>
+
+    <div id="eraInfoInput">
+      <div class="input-group mb-3">
+        <input id="rookieStatusInput" type="text" class="form-control" placeholder="rookie status">
+      </div>
+      <div class="input-group mb-3">
+        <input id="lastGameInput" type="text" class="form-control" placeholder="last game">
+      </div>
+    </div>
+
+    <div id="bbInfoInput">
+      <!-- Position checkboxes  -->
+      {% for position in positions %}
+      {% if position == "First Baseman" %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id=firstBasemanInput value={{ position }}>
+        <label class="form-check-label" for=firstBasemanInput>{{ position }}</label>
+      </div>
+      {% elif position == "Second Baseman" %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id=secondBasemanInput value={{ position }}>
+        <label class="form-check-label" for=secondBasemanInput>{{ position }}</label>
+      </div>
+      {% elif position == "Third Baseman" %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id=thirdBasemanInput value={{ position }}>
+        <label class="form-check-label" for=thirdBasemanInput>{{ position }}</label>
+      </div>
+      {% elif position == "Designated Hitter" %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id=DHInput value={{ position }}>
+        <label class="form-check-label" for=DHInput>{{ position }}</label>
+      </div>
+      {% else %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id={{ position }}Input value={{ position }}>
+        <label class="form-check-label" for={{ position }}Input>{{ position }}</label>
+      </div>
+      {% endif %}
+
+      {% endfor %}
+      <!-- end positions checkbox -->
     <div class="input-group mb-3">
       <input id="throwsInput" type="text" class="form-control" placeholder="throws">
     </div>
@@ -22,61 +75,27 @@
       <input id="batsInput" type="text" class="form-control" placeholder="bats">
     </div>
     <div class="input-group mb-3">
-      <input id="bornInput" type="text" class="form-control" placeholder="born">
-    </div>
-    <div class="input-group mb-3">
-      <input id="lastGameInput" type="text" class="form-control" placeholder="last game">
-    </div>
-    <div class="input-group mb-3">
-      <input id="rookieStatusInput" type="text" class="form-control" placeholder="rookie status">
-    </div>
-    <div class="input-group mb-3">
       <input id="WARInput" type="text" class="form-control" placeholder="WAR">
     </div>
-    <div class="input-group mb-3">
-      <input id="imageURLInput" type="text" class="form-control" placeholder="image_url">
-    </div>
-    <!-- Position checkboxes  -->
-    {% for position in positions %}
-    {% if position == "First Baseman" %}
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id=firstBasemanInput value={{ position }}>
-      <label class="form-check-label" for=firstBasemanInput>{{ position }}</label>
-    </div>
-    {% elif position == "Second Baseman" %}
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id=secondBasemanInput value={{ position }}>
-      <label class="form-check-label" for=secondBasemanInput>{{ position }}</label>
-    </div>
-    {% elif position == "Third Baseman" %}
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id=thirdBasemanInput value={{ position }}>
-      <label class="form-check-label" for=thirdBasemanInput>{{ position }}</label>
-    </div>
-    {% elif position == "Designated Hitter" %}
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id=DHInput value={{ position }}>
-      <label class="form-check-label" for=DHInput>{{ position }}</label>
-    </div>
-    {% else %}
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id={{ position }}Input value={{ position }}>
-      <label class="form-check-label" for={{ position }}Input>{{ position }}</label>
-    </div>
-    {% endif %}
-
-    {% endfor %}
-    <!-- end positions checkbox -->
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">Bio</span>
-      </div>
-      <textarea id="bioInput" class="form-control" aria-label="Bio"></textarea>
     </div>
     <div class="input-group mb-3">
       <button id="addPlayerBtn" class="btn btn-primary"> Submit </button>
     </div>
   </div>
 </div>
+<!-- alert boxes -->
 
+<div class='alert alert-success alertModal' id='successAdd' role='alert'>
+  Player Added: <a id='newPlayerLink' class='alert-link' href='#'> example </a>
+  <button type="button" class="close closeAlert" id='closeSuccessAlert'>
+          <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class='alert alert-danger alertModal' id='failAdd' role='alert'>
+  Failed to add player :-(
+  <button type="button" class="close closeAlert" id='closeFailAlert'>
+          <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 {% endblock %}
