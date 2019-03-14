@@ -8,7 +8,7 @@ from pprint import pprint
 app = Flask(__name__)
 
 DATA_FILE = '../players2.json'
-PLAYER_DATA = json.load(open(DATA_FILE))
+PLAYER_DATA = []
 current_id = 100
 
 POSITIONS = ["Catcher", "Pitcher", "Designated Hitter", "Centerfielder", "Rightfielder",
@@ -37,7 +37,18 @@ def search():
 
 @app.route('/view_item/<id>')
 def view_item(id=3):
-	return render_template('view_item.html', id=id)
+    player = get_player(id)
+    return render_template('view_item.html', id=id,
+                            fullname=player['full_name'],
+                            born=player['born'],
+                            image_url=player['image_url'],
+                            bio=player['bio'],
+                            rookie_status=player['rookie_status'],
+                            last_game=player['last_game'],
+                            positions=player['positions'],
+                            throws=player['throws'],
+                            bats=player['bats'],
+                            WAR=player['WAR'])
 
 def add_player(player):
     global current_id
@@ -46,6 +57,18 @@ def add_player(player):
     PLAYER_DATA.append(player)
     return player['id']
 
+def get_player(id):
+    for player in PLAYER_DATA:
+        if player['id'] == int(id):
+            print(" IM IN HE IF")
+            return player
+    print("COULDNT FIND PLAYER")
+    return None
+
+def load_players():
+    global PLAYER_DATA
+    PLAYER_DATA=json.load(open(DATA_FILE))
 
 if __name__ == '__main__':
-   app.run(debug = True)
+    load_players()
+    app.run(debug = True)
