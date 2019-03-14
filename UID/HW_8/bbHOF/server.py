@@ -33,22 +33,28 @@ def add_item():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-	return render_template('search.html')
+    if request.method == 'POST':
+        results = search_info(request.get_json())
+        return jsonify(data={'players' : results})
+    return render_template('search.html')
 
 @app.route('/view_item/<id>')
 def view_item(id=3):
     player = get_player(id)
-    return render_template('view_item.html', id=id,
-                            fullname=player['full_name'],
-                            born=player['born'],
-                            image_url=player['image_url'],
-                            bio=player['bio'],
-                            rookie_status=player['rookie_status'],
-                            last_game=player['last_game'],
-                            positions=player['positions'],
-                            throws=player['throws'],
-                            bats=player['bats'],
-                            WAR=player['WAR'])
+    try:
+        return render_template('view_item.html', id=id,
+                                fullname=player['full_name'],
+                                born=player['born'],
+                                image_url=player['image_url'],
+                                bio=player['bio'],
+                                rookie_status=player['rookie_status'],
+                                last_game=player['last_game'],
+                                positions=player['positions'],
+                                throws=player['throws'],
+                                bats=player['bats'],
+                                WAR=player['WAR'])
+    except:
+        return render_template('add-item.html', positions=POSITIONS)
 
 def add_player(player):
     global current_id
@@ -68,6 +74,16 @@ def get_player(id):
 def load_players():
     global PLAYER_DATA
     PLAYER_DATA=json.load(open(DATA_FILE))
+
+def search_info(query):
+    res = []
+    str_q = str(query)
+    for player in PLAYER_DATA:
+        for field in player:
+            if field != 'image_url' and field != 'id' and query.upper() in str(player[field]).upper():
+                res.append(player)
+    pprint(res)
+    return res
 
 if __name__ == '__main__':
     load_players()

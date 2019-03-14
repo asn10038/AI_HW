@@ -10,6 +10,8 @@
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script type="text/javascript" src="{{ url_for('static', filename = 'add-player.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'search-player.js') }}"></script>
+
     <style>
       #addPlayerForm {
           border: 1px;
@@ -78,7 +80,7 @@
         font-size: 12px;
       }
       .playerDatum {
-        font-size:17;
+        font-size:15;
       }
       .bold {
         font-weight: bold;
@@ -91,6 +93,13 @@
       }
       #WARDatum {
         font-size: 25px;
+      }
+      #searchButton {
+        background-color: #4a4a4a;
+        color: white;
+      }
+      #searchRow {
+        padding-top: 10px;
       }
     </style>
   </head>
