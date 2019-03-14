@@ -55,12 +55,12 @@ def add_player(player):
     player['id'] = current_id
     current_id +=1
     PLAYER_DATA.append(player)
+    pprint(player)
     return player['id']
 
 def get_player(id):
     for player in PLAYER_DATA:
         if player['id'] == int(id):
-            print(" IM IN HE IF")
             return player
     print("COULDNT FIND PLAYER")
     return None

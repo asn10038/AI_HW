@@ -49,6 +49,7 @@ function getPositions() {
     }
   }
   console.log(positions)
+  return positions;
 }
 
 function safeInput(){
@@ -104,7 +105,7 @@ function addPlayer() {
   war = $('#WARInput').val();
 
   player = {
-    'fullname' : fullname,
+    'full_name' : fullname,
     'born' : born,
     'bio' : bio,
     'image_url' : image_url,
@@ -115,6 +116,7 @@ function addPlayer() {
     'throws' : throws,
     'WAR' : war
   }
+  console.log(player)
   $.ajax({
       type: "POST",
       url: "add_item",
