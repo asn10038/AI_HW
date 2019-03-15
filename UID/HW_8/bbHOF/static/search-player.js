@@ -14,10 +14,10 @@ function get_result_row_odd_html(img_url,
     "<a class='result-name' href='/view_item/" + id + "'" +">" +
       fullname + "</a>" +
     "</div>" +
-    "<div class='col-md-1'>" + "<span class='bold'>" +
+    "<div class='col-md-1'>" + "<span class='bold result-name'>" +
       WAR + "</span>" +
     "</div>" +
-    "<div class='col-md-5'>" +
+    "<div class='small col-md-5'>" +
       born +
     "</div>" +
     "</div>"
@@ -36,10 +36,10 @@ function get_result_row_even_html(img_url,
     "<a class='result-name' href='/view_item/" + id + "'" +">" +
       fullname + "</a>" +
     "</div>" +
-    "<div class='col-md-1'>" + "<span class='bold'>" +
+    "<div class='col-md-1'>" + "<span class='bold result-name'>" +
       WAR + "</span>" +
     "</div>" +
-    "<div class='col-md-5'>" +
+    "<div class='small col-md-5'>" +
       born +
     "</div>" +
     "</div>"
