@@ -2,41 +2,63 @@
 {% block content %}
 
 <br>
-<div class="title">
-  <h2> Add Player </h2>
+<div class=row>
+  <div class='col-md-1'> </div>
+  <div class="col-md-6 title">
+    <h2 class='bold title'> Add Player </h2>
+    <hr>
+  </div>
 </div>
-<br>
 
 <div class="row">
+  <div class='col-md-1'></div>
   <div class="col-md-6" id="addPlayerForm">
     <div id="generalInfoInput">
       <div class="input-group mb-3">
-        <input id="fullnameInput" type="text" class="form-control" placeholder="fullname">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Fullname</span>
+        </div>
+        <input id="fullnameInput" type="text" class="form-control" placeholder="Oliver Klossof">
       </div>
       <div class="input-group mb-3">
-        <input id="bornInput" type="text" class="form-control" placeholder="born">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Born</span>
+        </div>
+        <input id="bornInput" type="text" class="form-control" placeholder="May 35th 1945 in Miami Fl US ">
       </div>
       <div class="input-group mb-3">
-        <input id="imageURLInput" type="text" class="form-control" placeholder="image_url">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Image Url</span>
+        </div>
+        <input id="imageURLInput" type="text" class="form-control" placeholder="http://quickimg.com">
       </div>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Bio</span>
         </div>
-        <textarea id="bioInput" class="form-control" aria-label="Bio"></textarea>
+        <textarea id="bioInput" class="form-control" aria-label="Bio" placeholder="short bio.."></textarea>
       </div>
     </div>
 
     <div id="eraInfoInput">
       <div class="input-group mb-3">
-        <input id="rookieStatusInput" type="text" class="form-control" placeholder="rookie status">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Rookie Status</span>
+        </div>
+        <input id="rookieStatusInput" type="text" class="form-control" placeholder="Exceeded rookie status in the 1776 season">
       </div>
       <div class="input-group mb-3">
-        <input id="lastGameInput" type="text" class="form-control" placeholder="last game">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Last Game</span>
+        </div>
+        <input id="lastGameInput" type="text" class="form-control" placeholder="October 25th 1993 W 3ER 5IP">
       </div>
     </div>
 
     <div id="bbInfoInput">
+      <div class="input-group">
+        <span class="bold" id='positionLabel'>Position</span>
+      </div>
       <!-- Position checkboxes  -->
       {% for position in positions %}
       {% if position == "First Baseman" %}
@@ -68,14 +90,23 @@
 
       {% endfor %}
       <!-- end positions checkbox -->
-    <div class="input-group mb-3">
-      <input id="throwsInput" type="text" class="form-control" placeholder="throws">
+    <div class="throws-input input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Throws</span>
+      </div>
+      <input id="throwsInput" type="text" class="form-control" placeholder="Left/Right/Both">
     </div>
     <div class="input-group mb-3">
-      <input id="batsInput" type="text" class="form-control" placeholder="bats">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Bats</span>
+      </div>
+      <input id="batsInput" type="text" class="form-control" placeholder="Left/Right/Switch">
     </div>
     <div class="input-group mb-3">
-      <input id="WARInput" type="text" class="form-control" placeholder="WAR">
+      <div class="input-group-prepend">
+        <span class="input-group-text">WAR</span>
+      </div>
+      <input id="WARInput" type="text" class="form-control" placeholder="2.0">
     </div>
     </div>
     <div class="input-group mb-3">

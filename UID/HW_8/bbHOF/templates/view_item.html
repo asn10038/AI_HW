@@ -6,7 +6,7 @@
     </div>
     <div class='col-md-10 playerInfo'>
       <div class='row playerDataRow'>
-        <div class='col-md-12 text-center' id="nameHeader">
+        <div class='col-md-12 bold text-center' id="nameHeader">
           {{ fullname }}
         </div>
       </div>
@@ -28,7 +28,7 @@
     </div>
 
     <div class='col-md-5 playerInfo'>
-      <div class='row playerDataRow'>
+      <div class='row WARRow playerDataRow'>
         <div class='col-md-12'>
           <span class='infoLabel'>WAR:</span> <span class='playerDatum bold' id='WARDatum'>{{ WAR }}</span>
         </div>
@@ -43,7 +43,7 @@
           {% endfor %}
         </div>
       </div>
-      <div class='row playerDataRow'>
+      <div class='row bats-throws-row playerDataRow'>
         <div class='col-md-12'>
           <span class='infoLabel'>Bats:</span> <span class='playerDatum'>{{ bats }}</span>
           <span class='infoLabel'>Throws:</span> <span class='playerDatum'>{{ throws }}</span>

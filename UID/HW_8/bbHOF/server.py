@@ -77,11 +77,13 @@ def load_players():
 
 def search_info(query):
     res = []
+    ids = set()
     str_q = str(query)
     for player in PLAYER_DATA:
         for field in player:
-            if field != 'image_url' and field != 'id' and query.upper() in str(player[field]).upper():
+            if field != 'image_url' and field != 'id' and query.upper() in str(player[field]).upper() and player['id'] not in ids:
                 res.append(player)
+                ids.add(player['id'])
     pprint(res)
     return res
 
