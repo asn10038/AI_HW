@@ -95,6 +95,7 @@ file4: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, 
 ```
 file5: data
 ```
+* exactly 5000 bytes suggests padding or the file was cut short
 
 ### File 6
 * Fuzzy Hash: 48:OaHwyJF+EQfW8pYhBBe7OvkF4B9Be4B4BSVBMHs0KDPETLeaNrGXj02GYdsSBMK9:c3K8qFBbha9rgWZcPnKO,"file6"
