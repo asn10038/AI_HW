@@ -134,8 +134,12 @@ Objdump shows a main and control flow similar in functionality to files 1 and 2.
 ```
 file5: data
 ```
+<<<<<<< HEAD
 * This is not a zip file or a tarball
 * The exact lenvth of 5000 bytes suggests this might be random data rather than encrypted, but it could also be some sort of padding.
+=======
+* exactly 5000 bytes suggests padding or the file was cut short
+>>>>>>> 9541ca8d11bd1ccec537c596855f3d94c29bbaa6
 
 ### File 6
 * Fuzzy Hash: 48:OaHwyJF+EQfW8pYhBBe7OvkF4B9Be4B4BSVBMHs0KDPETLeaNrGXj02GYdsSBMK9:c3K8qFBbha9rgWZcPnKO,"file6"
