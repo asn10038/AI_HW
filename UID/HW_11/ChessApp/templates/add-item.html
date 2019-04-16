@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<br>
+<div class=row>
+  <div class='col-md-1'> </div>
+  <div class="col-md-6 title">
+    <h2 class='bold title'> Add Player </h2>
+    <hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class='col-md-1'></div>
+  <div class="col-md-6" id="addPlayerForm">
+    <div id="generalInfoInput">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Fullname</span>
+        </div>
+        <input id="fullnameInput" type="text" class="form-control" placeholder="Oliver Klossof">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Born</span>
+        </div>
+        <input id="bornInput" type="text" class="form-control" placeholder="May 35th 1945 in Miami Fl US ">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Image Url</span>
+        </div>
+        <input id="imageURLInput" type="text" class="form-control" placeholder="http://quickimg.com">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Bio</span>
+        </div>
+        <textarea id="bioInput" class="form-control" aria-label="Bio" placeholder="short bio.."></textarea>
+      </div>
+    </div>
+
+    <div id="eraInfoInput">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Rookie Status</span>
+        </div>
+        <input id="rookieStatusInput" type="text" class="form-control" placeholder="Exceeded rookie status in the 1776 season">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Last Game</span>
+        </div>
+        <input id="lastGameInput" type="text" class="form-control" placeholder="October 25th 1993 W 3ER 5IP">
+      </div>
+    </div>
+
+    <div id="bbInfoInput">
+      <div class="input-group">
+        <span class="bold" id='positionLabel'>Position</span>
+      </div>
+      <!-- Position checkboxes  -->
+      {% for position in positions %}
+      {% if position == "First Baseman" %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id=firstBasemanInput value={{ position }}>
+        <label class="form-check-label" for=firstBasemanInput>{{ position }}</label>
+      </div>
+      {% elif position == "Second Baseman" %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id=secondBasemanInput value={{ position }}>
+        <label class="form-check-label" for=secondBasemanInput>{{ position }}</label>
+      </div>
+      {% elif position == "Third Baseman" %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id=thirdBasemanInput value={{ position }}>
+        <label class="form-check-label" for=thirdBasemanInput>{{ position }}</label>
+      </div>
+      {% elif position == "Designated Hitter" %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id=DHInput value={{ position }}>
+        <label class="form-check-label" for=DHInput>{{ position }}</label>
+      </div>
+      {% else %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id={{ position }}Input value={{ position }}>
+        <label class="form-check-label" for={{ position }}Input>{{ position }}</label>
+      </div>
+      {% endif %}
+
+      {% endfor %}
+      <!-- end positions checkbox -->
+    <div class="throws-input input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Throws</span>
+      </div>
+      <input id="throwsInput" type="text" class="form-control" placeholder="Left/Right/Both">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Bats</span>
+      </div>
+      <input id="batsInput" type="text" class="form-control" placeholder="Left/Right/Switch">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">WAR</span>
+      </div>
+      <input id="WARInput" type="text" class="form-control" placeholder="2.0">
+    </div>
+    </div>
+    <div class="input-group mb-3">
+      <button id="addPlayerBtn" class="btn btn-primary"> Submit </button>
+    </div>
+  </div>
+</div>
+<!-- alert boxes -->
+
+<div class='alert alert-success alertModal' id='successAdd' role='alert'>
+  Player Added: <a id='newPlayerLink' class='alert-link' href='#'> example </a>
+  <button type="button" class="close closeAlert" id='closeSuccessAlert'>
+          <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class='alert alert-danger alertModal' id='failAdd' role='alert'>
+  Failed to add player :-(
+  <button type="button" class="close closeAlert" id='closeFailAlert'>
+          <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endblock %}

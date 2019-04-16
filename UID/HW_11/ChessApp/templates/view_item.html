@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class='col-md-11 container playerContainer'>
+  <div class=row>
+    <div class='col-md-1'>
+    </div>
+    <div class='col-md-10 playerInfo'>
+      <div class='row playerDataRow'>
+        <div class='col-md-12 bold text-center' id="nameHeader">
+          {{ fullname }}
+        </div>
+      </div>
+      <div class='row playerDataRow'>
+        <div class='col-md-12 text-center' id='bornHeader'>
+          <span class='infoLabel'>Born:</span> <span class=''>{{ born }}</span>
+        </div>
+      </div>
+    </div>
+    <div class='col-md-1'>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-2'>
+    </div>
+    <div class='col-md-3'>
+      <img alt="PLAYER IMG HERE" class=playerImage src="{{ image_url }}">
+    </div>
+
+    <div class='col-md-5 playerInfo'>
+      <div class='row WARRow playerDataRow'>
+        <div class='col-md-12'>
+          <span class='infoLabel'>WAR:</span> <span class='playerDatum bold' id='WARDatum'>{{ WAR }}</span>
+        </div>
+      </div>
+      <div class='row playerDataRow'>
+        <div class='col-md-12'>
+          <div>
+            <span class='infoLabel'>Positions:</span>
+          </div>
+          {% for position in positions %}
+          <div> <span class='playerDatum position bigDatum'>{{ position }}</span> </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class='row bats-throws-row playerDataRow'>
+        <div class='col-md-12'>
+          <span class='infoLabel'>Bats:</span> <span class='playerDatum'>{{ bats }}</span>
+          <span class='infoLabel'>Throws:</span> <span class='playerDatum'>{{ throws }}</span>
+        </div>
+      </div>
+      <div class="row playerDataRow">
+        <div class='col-md-12 playerInfo'>
+          <span class='infoLabel'>Rookie Status:</span> <span class='littleDatum'> {{ rookie_status }}</span>
+        </div>
+      </div>
+      <div class='row playerDataRow'>
+        <div class='col-md-12'>
+          <span class='infoLabel'>Last Game:</span> <span class='littleDatum'>{{ last_game }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class='row playerBio'>
+    <div class='col-md-1'>
+    </div>
+    <div class='col-md-10'>
+      {{ bio }}
+    </div>
+    <div class='col-md-1'>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
