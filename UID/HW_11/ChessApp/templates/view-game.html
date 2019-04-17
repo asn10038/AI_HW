@@ -9,6 +9,8 @@
   <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script type="text/javascript" src="{{ url_for('static', filename = 'js/chessboard-0.3.0.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename = 'js/stockfish.js') }}"></script>
+
 
   <link rel="stylesheet" href="{{ url_for('static', filename = 'css/chessboard-0.3.0.css')}}">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
@@ -22,7 +24,14 @@
     <div id="board" style="width: 400px"></div>
     </div>
   <div>
+  <button id='next'> next </button>
   <!-- Scripts begin -->
+  <div id='game-pgn'>
+    {{ pgn }}
+  </div>
+  <div>
+  <h3 id='scratch'>
+  </h3>
   <script type="text/javascript" src="{{ url_for('static', filename = 'chess-game.js') }}"></script>
 </body>
 
