@@ -18,7 +18,14 @@ def hello_world():
 @app.route('/games/<id>')
 def games(id=None):
     pgn = GAMES[id]
-    return render_template('view-game.html', pgn=str(GAMES[id]) )
+    try:
+        print(request.args)
+        if 'quiz' not in request.args:
+            return render_template('view-game.html', pgn=str(pgn) )
+        else:
+            return render_template('quiz-game.html', pgn=str(pgn))
+    except KeyError:
+        return render_template('view-game.html', pgn=str(pgn) )
 
 @app.route('/hello/<name>')
 def hello(name=None):
