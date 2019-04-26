@@ -1,0 +1,162 @@
+<html>
+  <head>
+    <!-- CSS -->
+    <link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    crossorigin="anonymous">
+
+    <!-- JQuery -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'add-player.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'search-player.js') }}"></script>
+
+    <style>
+      #addPlayerForm {
+          border: 1px;
+          margin: 10px;
+      }
+      .title {
+        margin: 5px;
+        font-size: 55px;
+      }
+      .throws-input {
+        margin-top: 50px;
+      }
+      #generalInfoInput {
+        margin-bottom: 50px;
+
+      }
+      #positionLabel {
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+      #eraInfoInput {
+        margin-bottom: 50px;
+      }
+
+      #bbInfoInput {
+        margin-bottom: 50px;
+      }
+
+      .alertModal {
+        position: fixed;
+        z-index: 1;
+        top: 100px;
+        right: 10px;
+      }
+
+      .closeAlert {
+        margin-left: 10px;
+      }
+
+      .playerContainer {
+        /* background-color: #ebebeb; */
+        background-color: #e7e7e7;
+        padding-bottom: 300px;
+      }
+      .playerImage {
+        margin-top: 20px;
+        /* background-color: blue; */
+        height: 300px;
+        width: 200px;
+      }
+      .playerInfo {
+        margin-top: 20px;
+        /* background-color:green; */
+      }
+      .playerDataRow {
+        margin-bottom: 0;
+      }
+      .playerBio {
+        /* background-color: red; */
+        overflow-wrap: break-word;
+        margin-top: 20px;
+      }
+      .position {
+        padding-left: 10px;
+      }
+      #nameHeader {
+        font-size: 55px;
+      }
+      #bornHeader {
+        font-size: 15px;
+      }
+      .infoLabel {
+        color: gray;
+        font-size: 12px;
+      }
+      .playerDatum {
+        font-size:15;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .bigDatum {
+        font-size: 20px;
+      }
+      .littleDatum {
+        font-size: 12px;
+      }
+      .WARRow {
+        margin-bottom: 15px;
+      }
+      .bats-throws-row {
+        margin-top: 10px;
+      }
+      #WARDatum {
+        font-size: 25px;
+        margin-bottom: 10px;
+      }
+      #searchButton {
+        background-color: #4a4a4a;
+        color: white;
+      }
+      #searchRow {
+        padding-top: 30px;
+      }
+      .odd-row {
+        background-color: #ebebeb;
+      }
+      .even-row {
+        background-color: #e5e7e9;
+      }
+      .result-image {
+        height: 100px;
+      }
+      .result-row {
+        margin-bottom: 5px;
+      }
+      .result-name {
+        font-size: 20px;
+      }
+      .header-row{
+        background-color: #666667;
+        color: white;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-weight: bold;
+        font-size: 15px;
+      }
+      .small {
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- navbar -->
+    <div id="navbar-container">
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Cooperstown Ref</a>
+        <a class="col-md-2 nav-item nav-link" href="/add_item">Add Item</a>
+        <a class="col-md-2 nav-item nav-link" href="/search">Search</a>
+      </nav>
+    </div>
+    <div id='content'>
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

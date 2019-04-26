@@ -1,0 +1,78 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+  <!-- JQuery -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Be Bobby Fischer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">Study, Learn, Win</h1>
+        <p>If you do this shit enough you too can be as good as Bobby Fischer.
+          Just study all his games pass all the quizes, be slightly insane and die a reclusive chess master somewhere in the Icelandic wilderness.
+          I hope that this app is just the beginning for you. -@ </p>
+        <p><strong> Please select a game from our list below</strong></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="list-group">
+
+            {% for summary in games %}
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-md-2"> {{ summary.event }} </div>
+                <div class="col-md-2"> {{ summary.white_player }} </div>
+                <div class="col-md-2"> {{ summary.black_player }} </div>
+                <div class="col-md-2"> {{ summary.date }} </div>
+                <div class="col-md-2 btn-group">
+                  <a class='btn btn-secondary' href="./{{ summary.id }}"> Study </a>
+                  <a class='btn btn-primary' href="./{{ summary.id }}?quiz=True"> Quiz </a>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <hr>
+
+    </div> <!-- /container -->
+
+  </main>
+
+  <footer class="container">
+    <p>&copy; IUDDUI</p>
+  </footer>
+
+</body>
+
+</html>

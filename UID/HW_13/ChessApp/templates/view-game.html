@@ -1,0 +1,77 @@
+<html>
+<head>
+  <link rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+  crossorigin="anonymous">
+
+  <!-- JQuery -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <!-- Chess Engine Scripts -->
+  <script type="text/javascript" src="{{ url_for('static', filename = 'js/chessboard-0.3.0.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename = 'js/stockfish.js') }}"></script>
+
+  <!-- Chess board -->
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/chessboard-0.3.0.css')}}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+
+  <!-- Slider Stuff -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick-theme.min.css"/>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+  <style>
+    #all-boards {
+      margin: 0 auto;
+      padding: 40px;
+      width: 80%;
+      height: 500px;
+    }
+    .slick-slide {
+      text-align: center;
+      color: #419be0;
+      background: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div>
+      <h1> Play a Random Game </h1>
+    </div>
+    <div id="board" style="width: 400px"></div>
+    </div>
+  <div>
+  <button id='next'> next </button>
+  <!-- Scripts begin -->
+  <div hidden="true" id='game-pgn'>
+    {{ pgn }}
+  </div>
+  <div>
+  <div id='scratch'>
+  </div>
+
+  <!-- board elements for slider -->
+  <div id='all-boards' class='slide-container'>
+    <!-- <div class='single-item'>
+      <div><h3>1</h3></div>
+      <div><h3>2</h3></div>
+      <div><h3>3</h3></div>
+      <div><h3>4</h3></div>
+      <div><h3>5</h3></div>
+      <div><h3>6</h3></div>
+    </div> -->
+  </div>
+  <!-- <script>
+  $(".single-item").slick({
+	dots: true
+  });
+  </script> -->
+  <!-- Additional Scripts -->
+  <script type="text/javascript" src="{{ url_for('static', filename = 'chess-game.js') }}"></script>
+</body>
+
+</html>
