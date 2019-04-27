@@ -20,11 +20,10 @@ def hello_world():
 def games(id=None):
     pgn = GAMES[id]
     try:
-        print(request.args)
         if 'quiz' not in request.args:
-            return render_template('view-game.html', pgn=str(pgn) )
+            return render_template('view-game.html', pgn=str(pgn), id=id )
         else:
-            return render_template('quiz-game.html', pgn=str(pgn))
+            return render_template('quiz-game.html', pgn=str(pgn), id=id)
     except KeyError:
         return render_template('view-game.html', pgn=str(pgn) )
 

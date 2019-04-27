@@ -8,6 +8,11 @@ CURRENT_SCORE = ""
 
 BOARDS = []
 
+WIN_GRAPH_MOVE_NUM = [0]
+WIN_GRAPH_EVAL = [.09 ]
+SCORES = {0:.09}
+NEXT_EVAL = 0
+
 // new code that hopefully won't fuck the old code
 function clean_pgn() {
   pgn = $('#game-pgn').text()
@@ -39,7 +44,26 @@ function parse_evaluation(event) {
     CURRENT_SCORE = score
     RESPONSE = ""
     $("#scratch").text(CURRENT_SCORE)
+    floatScore = parseFloat(score.split(" ")[2])
+    SCORES[NEXT_EVAL] = floatScore
+    update_graph_traces()
+
   }
+}
+
+function update_graph_traces() {
+  WIN_GRAPH_MOVE_NUM = []
+  WIN_GRAPH_EVAL = []
+  for(var i=0; i<=NEXT_EVAL; i++) {
+    WIN_GRAPH_MOVE_NUM.push(i)
+    WIN_GRAPH_EVAL.push(SCORES[i])
+    paint_graph()
+  }
+}
+//fills in the traces through move x
+function start_graph_update(x) {
+  NEXT_EVAL = x
+  score = score_next_move()
 }
 //randome game code
 var board,
@@ -55,12 +79,12 @@ board = ChessBoard('board', cfg);
 //simulate the game and generate of the board
 function add_board(num, fen) {
   //TODO remove this safeguard
-  if(num > 3)return;
   var nextBoard = $("<div></div>").attr("id", "board-"+num)
-  nextBoard.attr("class", "col-md-4 little-board")
+  nextBoard.attr("class", "col-md-3 little-board")
   $('#all-boards').append(nextBoard)
   boardX = ChessBoard('board-'+num)
   boardX.position(game3.fen())
+  BOARDS.push(boardX)
 }
 
 function add_boards(){
@@ -70,6 +94,31 @@ function add_boards(){
     game3.move(MOVES[curr_move])
     curr_move++;
   }
+}
+
+
+function paint_graph(){
+
+  var trace1 = {
+  x: WIN_GRAPH_MOVE_NUM,
+  y: WIN_GRAPH_EVAL,
+  fill: 'tozeroy',
+  type: 'scatter'
+  };
+
+  var data = [trace1];
+  layout = {
+    title: 'Position Evaluation',
+    xaxis: {
+      title: { text: "Move Number" }
+    },
+    yaxis: {
+      title: { text: "Position Score" }
+    }
+  }
+  Plotly.newPlot('eval-graph', data, layout, {showSendToCloud:true});
+
+
 }
 
 // new code that hopefully doesn't break everything
@@ -88,11 +137,6 @@ $(document).ready(function(){
     console.log("game loaded")
   }
   MOVES = game.history()
-  // add handler
-  $('#next').click(function() {
-    make_next_move();
-    score = score_next_move();
-  })
 
   //generate all the boards
   add_boards()
@@ -102,6 +146,9 @@ $(document).ready(function(){
   centerMode: true,
   centerPadding: '60px',
   slidesToShow: 3,
+  focusOnSelect: true,
+  arrows: true,
+  infinite: false,
   responsive: [
     {
       breakpoint: 768,
@@ -122,5 +169,15 @@ $(document).ready(function(){
       }
     }
   ]
-});
+  });
+
+  //install slider handler
+  $('#all-boards').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+    x = nextSlide
+    board.position(BOARDS[x].fen())
+    start_graph_update(x)
+  })
+
+  //paint the eval graph
+  paint_graph()
 })

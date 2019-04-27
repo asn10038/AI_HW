@@ -1,0 +1,9 @@
+1) Make the quiz feature actually work
+
+Enhancements
+2) Show the next moves as a slider from board to board
+3) Add a graph that shows how the odds of winning change
+4) Make it apparent if the answer is correct or not
+5) See correct move to make in quiz question
+6) Finish the control flow from page to page
+7) Put everything into a bootstrap template and figure out the padding
