@@ -28,9 +28,15 @@ might want to jump to a later point in the game so that they can review a piece 
 
 #### Screenshots
 
+#### Before
+![ alt Feature 1 before](./Feature1Before.png)
+
+#### After
+![ alt Feature 1 after ](./Feature13After.png)
+
 #### What did you change?
 In the original prototype the only way to move forward was a small button that moved to the next state. In this version I removed that button,
-and I added a slider so that the user can see multiple states, and can scroll through them quickly and easily.
+and I added a slider across the bottom so that the user can see multiple states, and can scroll through them quickly and easily in both directions.
 
 
 ### Feature 2: Quiz Feedback
@@ -41,6 +47,11 @@ When taking the quiz the user needs to know if they got the question right or no
 The user needs feedback to know if they are learning the game correctly or not. If they didn't have this feedback they would never know if they made the right move or not.
 
 #### Screenshots
+#### Before
+![ alt Feature 1 before](./Feature2Before.png)
+
+#### After
+![ alt Feature 1 after ](./Feature2After.png)
 
 #### What did you change?
 In the original only a tiny text box popped up below the board. This feedback was mostly lost on the user and wasn't clear.
@@ -55,6 +66,11 @@ The score of the board was only a number
 The score of the board is essential so the user understands which moves are significant and which ones are less so. If the user doesn't learn the significance of the moves,
 they won't be able to apply these patterns and ideas when they play their own games.
 #### Screenshots
+#### Before
+![ alt Feature 1 before](./Feature3Before.png)
+
+#### After
+![ alt Feature 1 after ](./Feature13After.png)
 
 #### What did you change?
 In the original the score was just displayed as a tiny number on the bottom of the app. Now the score is displayed as a chart on the side of the board so the user can track the score throughout the game and the slope of the line graph symbolizes the significance of the moves.
